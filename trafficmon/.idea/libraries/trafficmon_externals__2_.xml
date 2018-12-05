@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="trafficmon-externals (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/trafficmon-externals.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
