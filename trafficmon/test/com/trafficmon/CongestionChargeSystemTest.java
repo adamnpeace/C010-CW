@@ -126,7 +126,7 @@ public class CongestionChargeSystemTest {
             exactly(1).of(operationsTeamInterface).triggerInvestigationIntoVehicle();
         }});
 
-        Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
         congestionChargeSystem.vehicleEnteringZone(vehicle);
         congestionChargeSystem.vehicleLeavingZone(vehicle);
         congestionChargeSystem.getEventLog().get(0).setNewTimestamp(1000);
@@ -135,5 +135,34 @@ public class CongestionChargeSystemTest {
 
     }
 
+    @Test
+    public void insufficientFundsTriggersPenalty() {
+
+        context.checking(new Expectations() {{
+            exactly(1).of(operationsTeamInterface).issuePenaltyNotice();
+        }});
+
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+        congestionChargeSystem.vehicleEnteringZone(vehicle);
+        congestionChargeSystem.vehicleLeavingZone(vehicle);
+        congestionChargeSystem.getEventLog().get(0).setNewTimestamp(0);
+        congestionChargeSystem.getEventLog().get(1).setNewTimestamp(1000000000);
+        congestionChargeSystem.calculateCharges();
+    }
+
+    @Test
+    public void unregisteredAccountTriggersPenalty() {
+
+        context.checking(new Expectations() {{
+            exactly(1).of(operationsTeamInterface).issuePenaltyNotice();
+        }});
+
+        Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
+        congestionChargeSystem.vehicleEnteringZone(vehicle);
+        congestionChargeSystem.vehicleLeavingZone(vehicle);
+        congestionChargeSystem.getEventLog().get(0).setNewTimestamp(0);
+        congestionChargeSystem.getEventLog().get(1).setNewTimestamp(10);
+        congestionChargeSystem.calculateCharges();
+    }
 
 }
