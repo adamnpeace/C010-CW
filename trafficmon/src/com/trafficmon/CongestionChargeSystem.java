@@ -106,8 +106,14 @@ public class CongestionChargeSystem {
     }
 
     // Add custom methods below this line
-    public int getEventLogSize() {
-        return eventLog.size();
+    public List<ZoneBoundaryCrossing> getEventLog() {
+        return eventLog;
     }
+
+    public BigDecimal getCalculateCharges(List<ZoneBoundaryCrossing> crossingEventList) {
+        return calculateChargeForTimeInZone(crossingEventList);
+    }
+
+
 
 }
