@@ -19,5 +19,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="jmock-2.6.0" level="project" />
+    <orderEntry type="library" name="jmock-junit4-2.6.0" level="project" />
   </component>
 </module>

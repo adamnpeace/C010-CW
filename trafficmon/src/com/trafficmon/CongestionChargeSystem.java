@@ -9,6 +9,12 @@ public class CongestionChargeSystem {
 
     private final List<ZoneBoundaryCrossing> eventLog = new ArrayList<ZoneBoundaryCrossing>();
 
+    private final OperationsTeamInterface operationsTeamInterface;
+
+    public CongestionChargeSystem(OperationsTeamInterface operationsTeamInterface) {
+        this.operationsTeamInterface = operationsTeamInterface;
+    }
+
     public void vehicleEnteringZone(Vehicle vehicle) {
         eventLog.add(new EntryEvent(vehicle));
     }
@@ -36,6 +42,7 @@ public class CongestionChargeSystem {
             List<ZoneBoundaryCrossing> crossings = vehicleCrossings.getValue();
 
             if (!checkOrderingOf(crossings)) {
+                operationsTeamInterface.triggerInvestigationIntoVehicle(); // Custom
                 OperationsTeam.getInstance().triggerInvestigationInto(vehicle);
             } else {
 
@@ -73,47 +80,58 @@ public class CongestionChargeSystem {
     }
 
     private boolean previouslyRegistered(Vehicle vehicle) {
+        boolean res = false;
         for (ZoneBoundaryCrossing crossing : eventLog) {
             if (crossing.getVehicle().equals(vehicle)) {
-                return true;
+                res = true;
             }
         }
-        return false;
+        return res;
     }
 
-    private boolean checkOrderingOf(List<ZoneBoundaryCrossing> crossings) {
-
-        ZoneBoundaryCrossing lastEvent = crossings.get(0);
-
-        for (ZoneBoundaryCrossing crossing : crossings.subList(1, crossings.size())) {
-            if (crossing.timestamp() < lastEvent.timestamp()) {
-                return false;
-            }
-            if (crossing instanceof EntryEvent && lastEvent instanceof EntryEvent) {
-                return false;
-            }
-            if (crossing instanceof ExitEvent && lastEvent instanceof ExitEvent) {
-                return false;
-            }
-            lastEvent = crossing;
-        }
-
-        return true;
-    }
 
     private int minutesBetween(long startTimeMs, long endTimeMs) {
         return (int) Math.ceil((endTimeMs - startTimeMs) / (1000.0 * 60.0));
     }
 
-    // Add custom methods below this line
+    /*
+     ADD CUSTOM CODE BELOW
+      */
+
     public List<ZoneBoundaryCrossing> getEventLog() {
         return eventLog;
     }
 
-    public BigDecimal getCalculateCharges(List<ZoneBoundaryCrossing> crossingEventList) {
-        return calculateChargeForTimeInZone(crossingEventList);
+    public BigDecimal getCalculateCharges(List<ZoneBoundaryCrossing> crossings) {
+        return calculateChargeForTimeInZone(crossings);
     }
 
+    private boolean checkOrderingOf(List<ZoneBoundaryCrossing> crossings) {
+        return typeOfOrdering(crossings) == 0 ? true : false;
+    }
 
+    private int typeOfOrdering(List<ZoneBoundaryCrossing> crossings) {
+
+        ZoneBoundaryCrossing lastEvent = crossings.get(0);
+
+        for (ZoneBoundaryCrossing crossing : crossings.subList(1, crossings.size())) {
+            if (crossing.timestamp() < lastEvent.timestamp()) {
+                return 1;
+            }
+            if (crossing instanceof EntryEvent && lastEvent instanceof EntryEvent) {
+                return 2;
+            }
+            if (crossing instanceof ExitEvent && lastEvent instanceof ExitEvent) {
+                return 3;
+            }
+            lastEvent = crossing;
+        }
+
+        return 0;
+    }
+
+    public int getTypeOfOrdering(List<ZoneBoundaryCrossing> crossings) {
+        return typeOfOrdering(crossings);
+    }
 
 }

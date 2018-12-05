@@ -29,7 +29,7 @@ public class VehicleTest {
     }
 
     @Test
-    public void nullRegistrationHasNoHashCode() {
+    public void nullRegistrationHasHashCodeZero() {
         Vehicle vehicle = Vehicle.withRegistration(null);
         assertThat(vehicle.hashCode(), is(0));
     }
