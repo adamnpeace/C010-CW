@@ -105,4 +105,9 @@ public class CongestionChargeSystem {
         return (int) Math.ceil((endTimeMs - startTimeMs) / (1000.0 * 60.0));
     }
 
+    // Add custom methods below this line
+    public int getEventLogSize() {
+        return eventLog.size();
+    }
+
 }

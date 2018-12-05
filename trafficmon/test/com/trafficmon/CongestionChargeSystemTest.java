@@ -8,9 +8,13 @@ import static org.junit.Assert.*;
 
 public class CongestionChargeSystemTest {
 
+    CongestionChargeSystem congestionChargeSystem = new CongestionChargeSystem();
 
     @Test
-    public void vehicleEnteringZone() {
-        assertThat(1, is(1));
+    public void vehicleEnteringAndLeavingZoneCreatesTwoEvents() {
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+        congestionChargeSystem.vehicleEnteringZone(vehicle);
+        congestionChargeSystem.vehicleLeavingZone(vehicle);
+        assertThat(congestionChargeSystem.getEventLogSize(), is(2));
     }
 }
