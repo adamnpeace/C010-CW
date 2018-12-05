@@ -130,15 +130,40 @@ public class CongestionChargeSystemTest {
     @Test
     public void exitBeforeEntryTriggersInvestigation() {
 
-        Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
         congestionChargeSystem.vehicleEnteringZone(vehicle);
         congestionChargeSystem.vehicleLeavingZone(vehicle);
         congestionChargeSystem.getEventLog().get(0).setNewTimestamp(1000);
         congestionChargeSystem.getEventLog().get(1).setNewTimestamp(0);
         congestionChargeSystem.calculateCharges();
-        assertThat(outContent.toString(), is("Mismatched entries/exits. Triggering investigation into vehicle: Vehicle [A123 4NP]\n"));
+        assertThat(outContent.toString(), is("Mismatched entries/exits. Triggering investigation into vehicle: Vehicle [J091 4PY]\n"));
 
     }
+
+    @Test
+    public void insufficientFundsTriggersPenalty() {
+
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+        congestionChargeSystem.vehicleEnteringZone(vehicle);
+        congestionChargeSystem.vehicleLeavingZone(vehicle);
+        congestionChargeSystem.getEventLog().get(0).setNewTimestamp(0);
+        congestionChargeSystem.getEventLog().get(1).setNewTimestamp(1000000000);
+        congestionChargeSystem.calculateCharges();
+        assertThat(outContent.toString(), is("Penalty notice for: Vehicle [J091 4PY]\n"));
+    }
+
+    @Test
+    public void unregisteredAccountTriggersPenalty() {
+
+        Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
+        congestionChargeSystem.vehicleEnteringZone(vehicle);
+        congestionChargeSystem.vehicleLeavingZone(vehicle);
+        congestionChargeSystem.getEventLog().get(0).setNewTimestamp(0);
+        congestionChargeSystem.getEventLog().get(1).setNewTimestamp(10);
+        congestionChargeSystem.calculateCharges();
+        assertThat(outContent.toString(), is("Penalty notice for: Vehicle [A123 4NP]\n"));
+    }
+
 
 
 }
