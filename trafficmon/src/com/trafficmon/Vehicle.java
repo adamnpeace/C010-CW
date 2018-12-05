@@ -35,6 +35,9 @@ public class Vehicle {
         return registration != null ? registration.hashCode() : 0;
     }
 
+    /*
+        CUSTOM CODE BELOW
+     */
     public String getRegistration() {
         return registration;
     }

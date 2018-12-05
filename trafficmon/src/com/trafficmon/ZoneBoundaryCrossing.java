@@ -3,11 +3,11 @@ package com.trafficmon;
 public abstract class ZoneBoundaryCrossing {
 
     private final Vehicle vehicle;
-    private long time;
+    private long time; // NEW
 
     public ZoneBoundaryCrossing(Vehicle vehicle) {
         this.vehicle = vehicle;
-        this.time = System.currentTimeMillis();
+        this.time = System.currentTimeMillis(); // NEW
     }
 
     public Vehicle getVehicle() {
@@ -18,6 +18,9 @@ public abstract class ZoneBoundaryCrossing {
         return time;
     }
 
+    /*
+        CUSTOM CODE BELOW
+     */
     public void setNewTimestamp(long time) {
         this.time = time;
     }

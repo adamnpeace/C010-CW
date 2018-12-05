@@ -72,6 +72,17 @@ public class CongestionChargeSystem {
         return charge;
     }
 
+
+    private int minutesBetween(long startTimeMs, long endTimeMs) {
+        return (int) Math.ceil((endTimeMs - startTimeMs) / (1000.0 * 60.0));
+    }
+    /*
+        MODIFIED CODE BELOW
+     */
+    private boolean checkOrderingOf(List<ZoneBoundaryCrossing> crossings) {
+        return typeOfOrdering(crossings) == 0 ? true : false;
+    }
+
     private boolean previouslyRegistered(Vehicle vehicle) {
         boolean res = false;
         for (ZoneBoundaryCrossing crossing : eventLog) {
@@ -81,14 +92,8 @@ public class CongestionChargeSystem {
         }
         return res;
     }
-
-
-    private int minutesBetween(long startTimeMs, long endTimeMs) {
-        return (int) Math.ceil((endTimeMs - startTimeMs) / (1000.0 * 60.0));
-    }
-
     /*
-     ADD CUSTOM CODE BELOW
+        ADD NeW CODE BELOW
       */
 
     public List<ZoneBoundaryCrossing> getEventLog() {
@@ -97,10 +102,6 @@ public class CongestionChargeSystem {
 
     public BigDecimal getCalculateCharges(List<ZoneBoundaryCrossing> crossings) {
         return calculateChargeForTimeInZone(crossings);
-    }
-
-    private boolean checkOrderingOf(List<ZoneBoundaryCrossing> crossings) {
-        return typeOfOrdering(crossings) == 0 ? true : false;
     }
 
     private int typeOfOrdering(List<ZoneBoundaryCrossing> crossings) {
