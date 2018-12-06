@@ -34,4 +34,8 @@ public class Vehicle {
     public int hashCode() {
         return registration != null ? registration.hashCode() : 0;
     }
+
+    public String getRegistration() {
+        return registration;
+    }
 }
