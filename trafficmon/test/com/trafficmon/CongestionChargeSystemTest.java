@@ -16,7 +16,6 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 
 public class CongestionChargeSystemTest {
 
-
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();
 
@@ -63,10 +62,9 @@ public class CongestionChargeSystemTest {
         congestionChargeSystem.getEventLogElem(0).setNewTimestamp(0);
         congestionChargeSystem.vehicleLeavingZone(vehicle);
         congestionChargeSystem.getEventLogElem(1).setNewTimestamp(10000000);
-        List<ZoneBoundaryCrossing> mockEventLog = new ArrayList<ZoneBoundaryCrossing>();
-        mockEventLog.add(congestionChargeSystem.getEventLogElem(0));
-        mockEventLog.add(congestionChargeSystem.getEventLogElem(1));
-        BigDecimal calculatedCharge = congestionChargeSystem.getCalculateCharges(mockEventLog);
+        BigDecimal calculatedCharge = congestionChargeSystem.getCalculateCharges(
+                congestionChargeSystem.getEventLogElem(0),
+                congestionChargeSystem.getEventLogElem(1));
         assertThat(calculatedCharge.round(precision), is(expectedCharge.round(precision)));
     }
 
@@ -74,7 +72,7 @@ public class CongestionChargeSystemTest {
     public void eventChargeForEntryAndExitTwoVehicles() {
         Vehicle vehicle1 = Vehicle.withRegistration("A123 4NP");
         Vehicle vehicle2 = Vehicle.withRegistration("S123 4EF");
-        BigDecimal expectedCharge = new BigDecimal(16.7);
+        BigDecimal expectedCharge = new BigDecimal(33.4);
         MathContext precision = new MathContext(5);
         congestionChargeSystem.vehicleEnteringZone(vehicle1);
         congestionChargeSystem.getEventLogElem(0).setNewTimestamp(0);
@@ -84,13 +82,13 @@ public class CongestionChargeSystemTest {
         congestionChargeSystem.getEventLogElem(2).setNewTimestamp(20000000);
         congestionChargeSystem.vehicleLeavingZone(vehicle2);
         congestionChargeSystem.getEventLogElem(3).setNewTimestamp(30000000);
-        List<ZoneBoundaryCrossing> mockEventLog = new ArrayList<ZoneBoundaryCrossing>();
-        for (int i=0; i<4; i++)
-        {
-            mockEventLog.add(congestionChargeSystem.getEventLogElem(i));
-        }
-        BigDecimal calculatedCharge = congestionChargeSystem.getCalculateCharges(mockEventLog);
-        assertThat(calculatedCharge.round(precision), is(expectedCharge.round(precision)));
+        BigDecimal calculatedChargeVehicle1 = congestionChargeSystem.getCalculateCharges(
+                congestionChargeSystem.getEventLogElem(0),
+                congestionChargeSystem.getEventLogElem(2));
+        BigDecimal calculatedChargeVehicle2 = congestionChargeSystem.getCalculateCharges(
+                congestionChargeSystem.getEventLogElem(1),
+                congestionChargeSystem.getEventLogElem(3));
+        assertThat(calculatedChargeVehicle1.add(calculatedChargeVehicle2).round(precision), is(expectedCharge.round(precision)));
     }
 
     @Test

@@ -90,7 +90,6 @@ public class CongestionChargeSystem {
         return res;
     }
 
-
     private int minutesBetween(long startTimeMs, long endTimeMs) {
         return (int) Math.ceil((endTimeMs - startTimeMs) / (1000.0 * 60.0));
     }
@@ -103,8 +102,11 @@ public class CongestionChargeSystem {
         return eventLog.get(index);
     }
 
-    public BigDecimal getCalculateCharges(List<ZoneBoundaryCrossing> crossings) {
-        return calculateChargeForTimeInZone(crossings);
+    public BigDecimal getCalculateCharges(ZoneBoundaryCrossing entry, ZoneBoundaryCrossing exit) {
+        List<ZoneBoundaryCrossing> mockEventLog = new ArrayList<ZoneBoundaryCrossing>();
+        mockEventLog.add(entry);
+        mockEventLog.add(exit);
+        return calculateChargeForTimeInZone(mockEventLog);
     }
 
     private boolean checkOrderingOf(List<ZoneBoundaryCrossing> crossings) {
