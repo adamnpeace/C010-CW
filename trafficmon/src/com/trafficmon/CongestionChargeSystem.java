@@ -2,17 +2,19 @@ package com.trafficmon;
 
 import java.math.BigDecimal;
 import java.util.*;
-
+/*
+Changes made to constructor, calculateCharges, checkOrderingOf, typeOfOrdering, getTypeOfOrdering, getEventLogSize, getEventLogElem
+ */
 public class CongestionChargeSystem {
 
     public static final BigDecimal CHARGE_RATE_POUNDS_PER_MINUTE = new BigDecimal(0.05);
 
     private final List<ZoneBoundaryCrossing> eventLog = new ArrayList<ZoneBoundaryCrossing>();
 
-    private final OperationsTeamInterface operationsTeamInterface;
+    private final PenaltiesService operationsTeam;
 
-    public CongestionChargeSystem(OperationsTeamInterface operationsTeamInterface) {
-        this.operationsTeamInterface = operationsTeamInterface;
+    public CongestionChargeSystem(PenaltiesService operationsTeam) {
+        this.operationsTeam = operationsTeam;
     }
 
     public void vehicleEnteringZone(Vehicle vehicle) {
@@ -42,8 +44,7 @@ public class CongestionChargeSystem {
             List<ZoneBoundaryCrossing> crossings = vehicleCrossings.getValue();
 
             if (!checkOrderingOf(crossings)) {
-                operationsTeamInterface.triggerInvestigationIntoVehicle(); // Custom
-                OperationsTeam.getInstance().triggerInvestigationInto(vehicle);
+                operationsTeam.triggerInvestigationInto(vehicle);
             } else {
 
                 BigDecimal charge = calculateChargeForTimeInZone(crossings);
@@ -51,11 +52,9 @@ public class CongestionChargeSystem {
                 try {
                     RegisteredCustomerAccountsService.getInstance().accountFor(vehicle).deduct(charge);
                 } catch (InsufficientCreditException ice) {
-                    operationsTeamInterface.issuePenaltyNotice(); // Custom
-                    OperationsTeam.getInstance().issuePenaltyNotice(vehicle, charge);
+                    operationsTeam.issuePenaltyNotice(vehicle, charge);
                 } catch (AccountNotRegisteredException e) {
-                    operationsTeamInterface.issuePenaltyNotice(); // Custom
-                    OperationsTeam.getInstance().issuePenaltyNotice(vehicle, charge);
+                    operationsTeam.issuePenaltyNotice(vehicle, charge);
                 }
             }
         }
@@ -91,21 +90,23 @@ public class CongestionChargeSystem {
         return res;
     }
 
-
     private int minutesBetween(long startTimeMs, long endTimeMs) {
         return (int) Math.ceil((endTimeMs - startTimeMs) / (1000.0 * 60.0));
     }
 
-    /*
-     ADD CUSTOM CODE BELOW
-      */
-
-    public List<ZoneBoundaryCrossing> getEventLog() {
-        return eventLog;
+    public int getEventLogSize() {
+        return eventLog.size();
     }
 
-    public BigDecimal getCalculateCharges(List<ZoneBoundaryCrossing> crossings) {
-        return calculateChargeForTimeInZone(crossings);
+    public ZoneBoundaryCrossing getEventLogElem(int index) {
+        return eventLog.get(index);
+    }
+
+    public BigDecimal getCalculateCharges(ZoneBoundaryCrossing entry, ZoneBoundaryCrossing exit) {
+        List<ZoneBoundaryCrossing> mockEventLog = new ArrayList<ZoneBoundaryCrossing>();
+        mockEventLog.add(entry);
+        mockEventLog.add(exit);
+        return calculateChargeForTimeInZone(mockEventLog);
     }
 
     private boolean checkOrderingOf(List<ZoneBoundaryCrossing> crossings) {
