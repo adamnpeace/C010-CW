@@ -20,10 +20,9 @@ public class CongestionChargeSystem {
     }
 
     public void vehicleLeavingZone(Vehicle vehicle) {
-        if (!previouslyRegistered(vehicle)) {
-            return;
+        if (previouslyRegistered(vehicle)) {
+            eventLog.add(new ExitEvent(vehicle));
         }
-        eventLog.add(new ExitEvent(vehicle));
     }
 
     public void calculateCharges() {
