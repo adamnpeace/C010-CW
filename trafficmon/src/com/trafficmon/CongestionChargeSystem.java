@@ -4,9 +4,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class CongestionChargeSystem {
-    // Bogus refactor to move the HEAD
-    // Simon's bogus refactor
-    // extra
+
     public static final BigDecimal CHARGE_RATE_POUNDS_PER_MINUTE = new BigDecimal(0.05);
 
     private final List<ZoneBoundaryCrossing> eventLog = new ArrayList<ZoneBoundaryCrossing>();
