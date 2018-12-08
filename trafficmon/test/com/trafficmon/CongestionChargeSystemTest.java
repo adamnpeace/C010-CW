@@ -16,27 +16,26 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 
 public class CongestionChargeSystemTest {
 
-
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();
 
-    OperationsTeamInterface operationsTeamInterface = context.mock(OperationsTeamInterface.class);
+    PenaltiesService operationsTeam = context.mock(PenaltiesService.class);
 
-    CongestionChargeSystem congestionChargeSystem = new CongestionChargeSystem(operationsTeamInterface);
+    CongestionChargeSystem congestionChargeSystem = new CongestionChargeSystem(operationsTeam);
 
     @Test
     public void vehicleEnteringAndLeavingZoneCreatesTwoEvents() {
         Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
         congestionChargeSystem.vehicleEnteringZone(vehicle);
         congestionChargeSystem.vehicleLeavingZone(vehicle);
-        assertThat(congestionChargeSystem.getEventLog().size(), is(2));
+        assertThat(congestionChargeSystem.getEventLogSize(), is(2));
     }
 
     @Test
     public void vehicleEnteringZoneAddsEntryEvent() {
         Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
         congestionChargeSystem.vehicleEnteringZone(vehicle);
-        assertTrue(congestionChargeSystem.getEventLog().get(0) instanceof EntryEvent);
+        assertTrue(congestionChargeSystem.getEventLogElem(0) instanceof EntryEvent);
     }
 
     @Test
@@ -44,14 +43,14 @@ public class CongestionChargeSystemTest {
         Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
         congestionChargeSystem.vehicleEnteringZone(vehicle);
         congestionChargeSystem.vehicleLeavingZone(vehicle);
-        assertTrue(congestionChargeSystem.getEventLog().get(1) instanceof ExitEvent);
+        assertTrue(congestionChargeSystem.getEventLogElem(1) instanceof ExitEvent);
     }
 
     @Test
     public void notPreviouslyRegisteredVehicleAddsNoEvent() {
         Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
         congestionChargeSystem.vehicleLeavingZone(vehicle);
-        assertThat(congestionChargeSystem.getEventLog().size(), is(0));
+        assertThat(congestionChargeSystem.getEventLogSize(), is(0));
     }
     
     @Test
@@ -60,10 +59,12 @@ public class CongestionChargeSystemTest {
         BigDecimal expectedCharge = new BigDecimal(8.3500);
         MathContext precision = new MathContext(5);
         congestionChargeSystem.vehicleEnteringZone(vehicle);
-        congestionChargeSystem.getEventLog().get(0).setNewTimestamp(0);
+        congestionChargeSystem.getEventLogElem(0).setNewTimestamp(0);
         congestionChargeSystem.vehicleLeavingZone(vehicle);
-        congestionChargeSystem.getEventLog().get(1).setNewTimestamp(10000000);
-        BigDecimal calculatedCharge = congestionChargeSystem.getCalculateCharges(congestionChargeSystem.getEventLog());
+        congestionChargeSystem.getEventLogElem(1).setNewTimestamp(10000000);
+        BigDecimal calculatedCharge = congestionChargeSystem.getCalculateCharges(
+                congestionChargeSystem.getEventLogElem(0),
+                congestionChargeSystem.getEventLogElem(1));
         assertThat(calculatedCharge.round(precision), is(expectedCharge.round(precision)));
     }
 
@@ -71,18 +72,23 @@ public class CongestionChargeSystemTest {
     public void eventChargeForEntryAndExitTwoVehicles() {
         Vehicle vehicle1 = Vehicle.withRegistration("A123 4NP");
         Vehicle vehicle2 = Vehicle.withRegistration("S123 4EF");
-        BigDecimal expectedCharge = new BigDecimal(16.7);
+        BigDecimal expectedCharge = new BigDecimal(33.4);
         MathContext precision = new MathContext(5);
         congestionChargeSystem.vehicleEnteringZone(vehicle1);
-        congestionChargeSystem.getEventLog().get(0).setNewTimestamp(0);
+        congestionChargeSystem.getEventLogElem(0).setNewTimestamp(0);
         congestionChargeSystem.vehicleEnteringZone(vehicle2);
-        congestionChargeSystem.getEventLog().get(1).setNewTimestamp(10000000);
+        congestionChargeSystem.getEventLogElem(1).setNewTimestamp(10000000);
         congestionChargeSystem.vehicleLeavingZone(vehicle1);
-        congestionChargeSystem.getEventLog().get(2).setNewTimestamp(20000000);
+        congestionChargeSystem.getEventLogElem(2).setNewTimestamp(20000000);
         congestionChargeSystem.vehicleLeavingZone(vehicle2);
-        congestionChargeSystem.getEventLog().get(3).setNewTimestamp(30000000);
-        BigDecimal calculatedCharge = congestionChargeSystem.getCalculateCharges(congestionChargeSystem.getEventLog());
-        assertThat(calculatedCharge.round(precision), is(expectedCharge.round(precision)));
+        congestionChargeSystem.getEventLogElem(3).setNewTimestamp(30000000);
+        BigDecimal calculatedChargeVehicle1 = congestionChargeSystem.getCalculateCharges(
+                congestionChargeSystem.getEventLogElem(0),
+                congestionChargeSystem.getEventLogElem(2));
+        BigDecimal calculatedChargeVehicle2 = congestionChargeSystem.getCalculateCharges(
+                congestionChargeSystem.getEventLogElem(1),
+                congestionChargeSystem.getEventLogElem(3));
+        assertThat(calculatedChargeVehicle1.add(calculatedChargeVehicle2).round(precision), is(expectedCharge.round(precision)));
     }
 
     @Test
@@ -121,47 +127,53 @@ public class CongestionChargeSystemTest {
 
     @Test
     public void exitBeforeEntryTriggersInvestigation() {
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
 
         context.checking(new Expectations() {{
-            exactly(1).of(operationsTeamInterface).triggerInvestigationIntoVehicle();
+            exactly(1).of(operationsTeam).triggerInvestigationInto(vehicle);
         }});
 
-        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
         congestionChargeSystem.vehicleEnteringZone(vehicle);
         congestionChargeSystem.vehicleLeavingZone(vehicle);
-        congestionChargeSystem.getEventLog().get(0).setNewTimestamp(1000);
-        congestionChargeSystem.getEventLog().get(1).setNewTimestamp(0);
+        congestionChargeSystem.getEventLogElem(0).setNewTimestamp(1000);
+        congestionChargeSystem.getEventLogElem(1).setNewTimestamp(0);
         congestionChargeSystem.calculateCharges();
 
     }
 
     @Test
     public void insufficientFundsTriggersPenalty() {
-
-        context.checking(new Expectations() {{
-            exactly(1).of(operationsTeamInterface).issuePenaltyNotice();
-        }});
+        BigDecimal expectedPenalty = new BigDecimal(Math.ceil((1000000000) / (1000.0 * 60.0)))
+                .multiply(congestionChargeSystem.CHARGE_RATE_POUNDS_PER_MINUTE);
 
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+
+        context.checking(new Expectations() {{
+            exactly(1).of(operationsTeam).issuePenaltyNotice(vehicle, expectedPenalty);
+        }});
+
         congestionChargeSystem.vehicleEnteringZone(vehicle);
         congestionChargeSystem.vehicleLeavingZone(vehicle);
-        congestionChargeSystem.getEventLog().get(0).setNewTimestamp(0);
-        congestionChargeSystem.getEventLog().get(1).setNewTimestamp(1000000000);
+        congestionChargeSystem.getEventLogElem(0).setNewTimestamp(0);
+        congestionChargeSystem.getEventLogElem(1).setNewTimestamp(1000000000);
         congestionChargeSystem.calculateCharges();
     }
 
     @Test
     public void unregisteredAccountTriggersPenalty() {
-
-        context.checking(new Expectations() {{
-            exactly(1).of(operationsTeamInterface).issuePenaltyNotice();
-        }});
+        BigDecimal expectedPenalty = new BigDecimal(Math.ceil((10) / (1000.0 * 60.0)))
+                .multiply(congestionChargeSystem.CHARGE_RATE_POUNDS_PER_MINUTE);
 
         Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
+
+        context.checking(new Expectations() {{
+            exactly(1).of(operationsTeam).issuePenaltyNotice(vehicle, expectedPenalty);
+        }});
+
         congestionChargeSystem.vehicleEnteringZone(vehicle);
         congestionChargeSystem.vehicleLeavingZone(vehicle);
-        congestionChargeSystem.getEventLog().get(0).setNewTimestamp(0);
-        congestionChargeSystem.getEventLog().get(1).setNewTimestamp(10);
+        congestionChargeSystem.getEventLogElem(0).setNewTimestamp(0);
+        congestionChargeSystem.getEventLogElem(1).setNewTimestamp(10);
         congestionChargeSystem.calculateCharges();
     }
 
