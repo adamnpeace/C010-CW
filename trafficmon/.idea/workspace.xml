@@ -2,7 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c839c97-f10e-4448-ab33-9ec61a4c1344" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/com/trafficmon/ChargeCalculator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/trafficmon/OrderChecker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/com/trafficmon/ChargeCalculatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/trafficmon/com/trafficmon/CongestionChargeSystem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/trafficmon/com/trafficmon/CongestionChargeSystem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/trafficmon/com/trafficmon/CongestionChargeSystemTest$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/trafficmon/com/trafficmon/CongestionChargeSystemTest$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/trafficmon/com/trafficmon/CongestionChargeSystemTest$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/trafficmon/com/trafficmon/CongestionChargeSystemTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/trafficmon/com/trafficmon/CongestionChargeSystemTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/trafficmon/CongestionChargeSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/trafficmon/CongestionChargeSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/com/trafficmon/CongestionChargeSystemTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/com/trafficmon/CongestionChargeSystemTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,91 +37,77 @@
   <component name="CoverageViewManager">
     <option name="myElementSize" value="258" />
   </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="1413935676">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="1" />
-          <entry key="project.open.time.0" value="1" />
-          <entry key="project.opened" value="1" />
-        </counts>
-      </usages-collector>
-    </session>
-    <session id="-1343189902">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="class" value="1" />
-          <entry key="java" value="14" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="CLASS" value="1" />
-          <entry key="JAVA" value="14" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="java" value="3066" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="JAVA" value="3066" />
-        </counts>
-      </usages-collector>
-    </session>
-    <session id="127722970">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="1" />
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="java" value="35" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="JAVA" value="35" />
-        </counts>
-      </usages-collector>
-    </session>
+  <component name="DockManager">
+    <window id="2">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/src/com/trafficmon/CongestionChargeSystem.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="828">
+                    <caret line="53" column="32" selection-start-line="53" selection-start-column="32" selection-end-line="53" selection-end-column="32" />
+                    <folding>
+                      <element signature="e#593#594#0" expanded="true" />
+                      <element signature="e#649#650#0" expanded="true" />
+                      <element signature="e#680#681#0" expanded="true" />
+                      <element signature="e#714#715#0" expanded="true" />
+                      <element signature="e#1512#1513#0" expanded="true" />
+                      <element signature="e#1551#1552#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/com/trafficmon/CongestionChargeSystemTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="512">
+              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#vehicleEnteringAndLeavingZoneCreatesTwoEvents#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#vehicleEnteringZoneAddsEntryEvent#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#vehicleLeavingZoneAddsExitEvent#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#notPreviouslyRegisteredVehicleAddsNoEvent#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#eventChargeForEntryAndExit#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#eventChargeForEntryAndExitTwoVehicles#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#exitBeforeEntryReturnsTimeStampErrorCode#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#twoEntryEventsReturnsDoubleEntryErrorCode#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#twoExitEventsReturnsDoubleExitErrorCode#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#correctOrderReturnsNoErrorCode#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#exitBeforeEntryTriggersInvestigation#0;class#CongestionChargeSystemTest#0" />
-                <element signature="method#insufficientFundsTriggersPenalty#0;class#CongestionChargeSystemTest#0" />
                 <element signature="method#unregisteredAccountTriggersPenalty#0;class#CongestionChargeSystemTest#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/com/trafficmon/ChargeCalculatorTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="486">
+              <caret line="76" column="8" selection-start-line="76" selection-start-column="8" selection-end-line="76" selection-end-column="8" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/trafficmon/ChargeCalculator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/trafficmon/OrderChecker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="15" column="63" lean-forward="true" selection-start-line="15" selection-start-column="63" selection-end-line="15" selection-end-column="63" />
             </state>
           </provider>
         </entry>
@@ -119,8 +115,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/trafficmon/Vehicle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="667">
-              <caret line="38" column="28" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
+            <state relative-caret-position="176">
+              <caret line="11" column="41" lean-forward="true" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
               <folding>
                 <element signature="e#130#131#0" expanded="true" />
                 <element signature="e#178#179#0" expanded="true" />
@@ -137,67 +133,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/trafficmon-externals.jar!/com/trafficmon/PenaltiesService.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/trafficmon/ZoneBoundaryCrossing.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="46">
-              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/com/trafficmon/VehicleTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="31" column="50" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#toStringTest#0;class#VehicleTest#0" />
-                <element signature="method#twoSimilarVehiclesEqualEachother#0;class#VehicleTest#0" />
-                <element signature="method#twoDifferentVehiclesDoNotEqualEachother#0;class#VehicleTest#0" />
-                <element signature="method#nullRegistrationHasHashCodeZero#0;class#VehicleTest#0" />
-                <element signature="method#notNullRegistrationReturnsHashCode#0;class#VehicleTest#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/trafficmon-externals.jar!/com/trafficmon/OperationsTeam.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/trafficmon/CongestionChargeSystem.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit4 Test Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -221,21 +164,18 @@
         <option value="$PROJECT_DIR$/test/com/trafficmon/VehicleTest.java" />
         <option value="$PROJECT_DIR$/src/com/trafficmon/OperationsTeamInterface.java" />
         <option value="$PROJECT_DIR$/src/com/trafficmon/Example.java" />
-        <option value="$PROJECT_DIR$/test/com/trafficmon/CongestionChargeSystemTest.java" />
+        <option value="$PROJECT_DIR$/src/com/trafficmon/OrderChecker.java" />
+        <option value="$PROJECT_DIR$/src/com/trafficmon/ChargeCalculator.java" />
         <option value="$PROJECT_DIR$/src/com/trafficmon/CongestionChargeSystem.java" />
+        <option value="$PROJECT_DIR$/test/com/trafficmon/CongestionChargeSystemTest.java" />
+        <option value="$PROJECT_DIR$/test/com/trafficmon/ChargeCalculatorTest.java" />
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="22" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
     <option name="width" value="1680" />
-    <option name="height" value="1028" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -257,6 +197,19 @@
               <item name="trafficmon" type="b2602c69:ProjectViewProjectNode" />
               <item name="trafficmon" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="trafficmon" type="b2602c69:ProjectViewProjectNode" />
+              <item name="trafficmon" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="trafficmon-externals.jar" type="ab9368bb:PsiFileNode" />
+            </path>
+            <path>
+              <item name="trafficmon" type="b2602c69:ProjectViewProjectNode" />
+              <item name="trafficmon" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="trafficmon-externals.jar" type="ab9368bb:PsiFileNode" />
+              <item name="trafficmon" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="trafficmon" type="b2602c69:ProjectViewProjectNode" />
@@ -293,7 +246,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544036820798" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544397148029" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -333,7 +286,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.com.trafficmon in trafficmon">
+  <component name="RunManager" selected="JUnit.ChargeCalculatorTest.exitBeforeEntryReturnsTimeStampErrorCode">
     <configuration name="Example" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.trafficmon.Example" />
       <module name="trafficmon" />
@@ -343,6 +296,22 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChargeCalculatorTest.exitBeforeEntryReturnsTimeStampErrorCode" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="trafficmon" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.trafficmon.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.trafficmon" />
+      <option name="MAIN_CLASS_NAME" value="com.trafficmon.ChargeCalculatorTest" />
+      <option name="METHOD_NAME" value="exitBeforeEntryReturnsTimeStampErrorCode" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -422,9 +391,11 @@
       <item itemvalue="JUnit.CongestionChargeSystemTest" />
       <item itemvalue="JUnit.CongestionChargeSystemTest.eventChargeForEntryAndExit" />
       <item itemvalue="JUnit.com.trafficmon in trafficmon" />
+      <item itemvalue="JUnit.ChargeCalculatorTest.exitBeforeEntryReturnsTimeStampErrorCode" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ChargeCalculatorTest.exitBeforeEntryReturnsTimeStampErrorCode" />
         <item itemvalue="JUnit.com.trafficmon in trafficmon" />
         <item itemvalue="JUnit.CongestionChargeSystemTest" />
         <item itemvalue="JUnit.CongestionChargeSystemTest.eventChargeForEntryAndExit" />
@@ -445,22 +416,12 @@
       <workItem from="1544019391758" duration="18000" />
       <workItem from="1544019439855" duration="11095000" />
       <workItem from="1544036256537" duration="536000" />
+      <workItem from="1544394770225" duration="120000" />
+      <workItem from="1544394959238" duration="2183000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="com_trafficmon_in_trafficmon - 2018.12.05 at 17h 29m 29s.xml">
-      <configuration name="com.trafficmon in trafficmon" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="com_trafficmon_in_trafficmon - 2018.12.05 at 17h 36m 16s.xml">
-      <configuration name="com.trafficmon in trafficmon" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="com_trafficmon_in_trafficmon - 2018.12.05 at 18h 39m 29s.xml">
-      <configuration name="com.trafficmon in trafficmon" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="com_trafficmon_in_trafficmon - 2018.12.05 at 18h 40m 53s.xml">
-      <configuration name="com.trafficmon in trafficmon" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="com_trafficmon_in_trafficmon - 2018.12.05 at 18h 41m 32s.xml">
       <configuration name="com.trafficmon in trafficmon" configurationId="JUnit" />
     </history-entry>
@@ -479,25 +440,37 @@
     <history-entry file="com_trafficmon_in_trafficmon - 2018.12.05 at 19h 05m 05s.xml">
       <configuration name="com.trafficmon in trafficmon" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="com_trafficmon_in_trafficmon - 2018.12.09 at 23h 01m 56s.xml">
+      <configuration name="com.trafficmon in trafficmon" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ChargeCalculatorTest_exitBeforeEntryReturnsTimeStampErrorCode - 2018.12.09 at 23h 08m 34s.xml">
+      <configuration name="ChargeCalculatorTest.exitBeforeEntryReturnsTimeStampErrorCode" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ChargeCalculatorTest_exitBeforeEntryReturnsTimeStampErrorCode - 2018.12.09 at 23h 09m 31s.xml">
+      <configuration name="ChargeCalculatorTest.exitBeforeEntryReturnsTimeStampErrorCode" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ChargeCalculatorTest_exitBeforeEntryReturnsTimeStampErrorCode - 2018.12.09 at 23h 12m 12s.xml">
+      <configuration name="ChargeCalculatorTest.exitBeforeEntryReturnsTimeStampErrorCode" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11819000" />
+    <option name="totallyTimeSpent" value="14122000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1513" height="1013" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.096219935" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1947497" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="0" weight="0.3297062" />
+      <window_info anchor="bottom" id="Messages" order="0" weight="0.32867885" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.3297062" />
-      <window_info anchor="bottom" id="Run" order="3" weight="0.21218716" />
+      <window_info anchor="bottom" id="Run" order="3" weight="0.21160042" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
@@ -506,6 +479,7 @@
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" />
+      <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Coverage" order="0" side_tool="true" weight="0.63369966" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
@@ -516,13 +490,11 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Database" order="8" />
       <window_info anchor="right" id="Maven Projects" order="9" />
+      <window_info anchor="right" id="Maven" order="10" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
@@ -538,18 +510,48 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/trafficmon/Example.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/trafficmon/OperationsTeamInterface.java">
+    <entry file="file://$PROJECT_DIR$/src/com/trafficmon/OperationsTeamInterface.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/trafficmon/CongestionChargeSystemInterface.java" />
+    <entry file="file://$PROJECT_DIR$/test/com/trafficmon/VehicleTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+        <state relative-caret-position="320">
+          <caret line="31" column="50" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#toStringTest#0;class#VehicleTest#0" />
+            <element signature="method#twoSimilarVehiclesEqualEachother#0;class#VehicleTest#0" />
+            <element signature="method#twoDifferentVehiclesDoNotEqualEachother#0;class#VehicleTest#0" />
+            <element signature="method#nullRegistrationHasHashCodeZero#0;class#VehicleTest#0" />
+            <element signature="method#notNullRegistrationReturnsHashCode#0;class#VehicleTest#0" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/trafficmon/CongestionChargeSystemInterface.java" />
+    <entry file="jar://$PROJECT_DIR$/lib/trafficmon-externals.jar!/com/trafficmon/OperationsTeam.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/trafficmon-externals.jar!/com/trafficmon/PenaltiesService.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/trafficmon/ZoneBoundaryCrossing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/trafficmon/Vehicle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="667">
-          <caret line="38" column="28" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
+        <state relative-caret-position="176">
+          <caret line="11" column="41" lean-forward="true" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
           <folding>
             <element signature="e#130#131#0" expanded="true" />
             <element signature="e#178#179#0" expanded="true" />
@@ -565,69 +567,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/trafficmon-externals.jar!/com/trafficmon/PenaltiesService.class">
+    <entry file="file://$PROJECT_DIR$/src/com/trafficmon/CongestionChargeSystem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/trafficmon/ZoneBoundaryCrossing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/trafficmon/VehicleTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="31" column="50" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
+        <state relative-caret-position="828">
+          <caret line="53" column="32" selection-start-line="53" selection-start-column="32" selection-end-line="53" selection-end-column="32" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#toStringTest#0;class#VehicleTest#0" />
-            <element signature="method#twoSimilarVehiclesEqualEachother#0;class#VehicleTest#0" />
-            <element signature="method#twoDifferentVehiclesDoNotEqualEachother#0;class#VehicleTest#0" />
-            <element signature="method#nullRegistrationHasHashCodeZero#0;class#VehicleTest#0" />
-            <element signature="method#notNullRegistrationReturnsHashCode#0;class#VehicleTest#0" />
+            <element signature="e#593#594#0" expanded="true" />
+            <element signature="e#649#650#0" expanded="true" />
+            <element signature="e#680#681#0" expanded="true" />
+            <element signature="e#714#715#0" expanded="true" />
+            <element signature="e#1512#1513#0" expanded="true" />
+            <element signature="e#1551#1552#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/trafficmon-externals.jar!/com/trafficmon/OperationsTeam.class">
+    <entry file="file://$PROJECT_DIR$/src/com/trafficmon/ChargeCalculator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+        <state relative-caret-position="60">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/trafficmon/OrderChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="15" column="63" lean-forward="true" selection-start-line="15" selection-start-column="63" selection-end-line="15" selection-end-column="63" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/com/trafficmon/CongestionChargeSystemTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="512">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#vehicleEnteringAndLeavingZoneCreatesTwoEvents#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#vehicleEnteringZoneAddsEntryEvent#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#vehicleLeavingZoneAddsExitEvent#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#notPreviouslyRegisteredVehicleAddsNoEvent#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#eventChargeForEntryAndExit#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#eventChargeForEntryAndExitTwoVehicles#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#exitBeforeEntryReturnsTimeStampErrorCode#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#twoEntryEventsReturnsDoubleEntryErrorCode#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#twoExitEventsReturnsDoubleExitErrorCode#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#correctOrderReturnsNoErrorCode#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#exitBeforeEntryTriggersInvestigation#0;class#CongestionChargeSystemTest#0" />
-            <element signature="method#insufficientFundsTriggersPenalty#0;class#CongestionChargeSystemTest#0" />
             <element signature="method#unregisteredAccountTriggersPenalty#0;class#CongestionChargeSystemTest#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/trafficmon/CongestionChargeSystem.java">
+    <entry file="file://$PROJECT_DIR$/test/com/trafficmon/ChargeCalculatorTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+        <state relative-caret-position="486">
+          <caret line="76" column="8" selection-start-line="76" selection-start-column="8" selection-end-line="76" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
