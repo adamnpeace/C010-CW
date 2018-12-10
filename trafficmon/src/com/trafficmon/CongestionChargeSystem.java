@@ -5,7 +5,7 @@ import java.util.*;
 public class CongestionChargeSystem implements ICongestionChargeSystem {
 
     private final List<ZoneBoundaryCrossing> eventLog = new ArrayList<ZoneBoundaryCrossing>();
-
+    private final Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle = new HashMap<Vehicle, List<ZoneBoundaryCrossing>>();
     private final PenaltiesService operationsTeam;
     private CheckSystem checkSystem;
     private CalculatorSystem calculatorSystem;
@@ -24,26 +24,27 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
 
     @Override
     public void vehicleEnteringZone(Vehicle vehicle) {
-        eventLog.add(new EntryEvent(vehicle));
+        EntryEvent entryEvent = new EntryEvent(vehicle);
+        eventLog.add(entryEvent);
+        if (!crossingsByVehicle.containsKey(vehicle)) {
+            crossingsByVehicle.put(vehicle, new ArrayList<ZoneBoundaryCrossing>());
+        }
+        crossingsByVehicle.get(entryEvent.getVehicle()).add(entryEvent);
+
+
     }
 
     @Override
     public void vehicleLeavingZone(Vehicle vehicle) {
         if (checkSystem.previouslyRegistered(vehicle, eventLog)) {
-            eventLog.add(new ExitEvent(vehicle));
+            ExitEvent exitEvent = new ExitEvent(vehicle);
+            eventLog.add(exitEvent);
+            crossingsByVehicle.get(exitEvent.getVehicle()).add(exitEvent);
         }
     }
 
     @Override
     public void calculateCharges() {
-        Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle = new HashMap<Vehicle, List<ZoneBoundaryCrossing>>();
-
-        for (ZoneBoundaryCrossing crossing : eventLog) {
-            if (!crossingsByVehicle.containsKey(crossing.getVehicle())) {
-                crossingsByVehicle.put(crossing.getVehicle(), new ArrayList<ZoneBoundaryCrossing>());
-            }
-            crossingsByVehicle.get(crossing.getVehicle()).add(crossing);
-        }
         calculatorSystem.calculateCharges(crossingsByVehicle);
     }
 
