@@ -10,6 +10,7 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
     private CheckSystem checkSystem;
     private CalculatorSystem calculatorSystem;
 
+    // Default constructor - only used in actual implementation
     CongestionChargeSystem() {
         this.checkSystem = new CheckSystem();
         this.operationsTeam = OperationsTeam.getInstance();
