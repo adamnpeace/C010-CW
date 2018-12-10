@@ -2,6 +2,7 @@ package com.trafficmon;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,19 +26,21 @@ public class CalculatorSystem {
             if (!checkSystem.checkOrderingOf(crossings)) {
                 operationsTeam.triggerInvestigationInto(vehicle);
             } else {
-
                 BigDecimal charge = calculateChargeForTimeInZone(crossings);
-
-                try {
-                    RegisteredCustomerAccountsService.getInstance().accountFor(vehicle).deduct(charge);
-                } catch (InsufficientCreditException | AccountNotRegisteredException e) {
-                    operationsTeam.issuePenaltyNotice(vehicle, charge);
-                }
+                makeChargeTo(vehicle, charge);
             }
         }
     }
 
-    public BigDecimal calculateChargeForTimeInZone(List<ZoneBoundaryCrossing> crossings) {
+    public void makeChargeTo(Vehicle vehicle, BigDecimal charge) {
+        try {
+            RegisteredCustomerAccountsService.getInstance().accountFor(vehicle).deduct(charge);
+        } catch (InsufficientCreditException | AccountNotRegisteredException e) {
+            operationsTeam.issuePenaltyNotice(vehicle, charge);
+        }
+    }
+
+    private BigDecimal calculateChargeForTimeInZone(List<ZoneBoundaryCrossing> crossings) {
 
         BigDecimal charge = new BigDecimal(0);
 
@@ -73,6 +76,4 @@ public class CalculatorSystem {
         mockEventLog.add(exit);
         return calculateChargeForTimeInZone(mockEventLog);
     }
-
-
 }

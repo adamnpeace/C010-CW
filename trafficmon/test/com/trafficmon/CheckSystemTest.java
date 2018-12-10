@@ -12,7 +12,7 @@ public class CheckSystemTest {
     CheckSystem checkSystem = new CheckSystem();
     @Test
     public void exitBeforeEntryReturnsTimeStampErrorCode() {
-        List<ZoneBoundaryCrossing> crossings = new ArrayList<ZoneBoundaryCrossing>();
+        List<ZoneBoundaryCrossing> crossings = new ArrayList<>();
         crossings.add(new EntryEvent(Vehicle.withRegistration("A123 4NP")));
         crossings.add(new ExitEvent(Vehicle.withRegistration("A123 4NP")));
         crossings.get(0).setNewTimestamp(1000);
@@ -22,7 +22,7 @@ public class CheckSystemTest {
 
     @Test
     public void twoEntryEventsReturnsDoubleEntryErrorCode() {
-        List<ZoneBoundaryCrossing> crossings = new ArrayList<ZoneBoundaryCrossing>();
+        List<ZoneBoundaryCrossing> crossings = new ArrayList<>();
         crossings.add(new EntryEvent(Vehicle.withRegistration("A123 4NP")));
         crossings.add(new EntryEvent(Vehicle.withRegistration("A123 4NP")));
         assertThat(checkSystem.getTypeOfOrdering(crossings), is(2));
@@ -30,7 +30,7 @@ public class CheckSystemTest {
 
     @Test
     public void twoExitEventsReturnsDoubleExitErrorCode() {
-        List<ZoneBoundaryCrossing> crossings = new ArrayList<ZoneBoundaryCrossing>();
+        List<ZoneBoundaryCrossing> crossings = new ArrayList<>();
         crossings.add(new ExitEvent(Vehicle.withRegistration("A123 4NP")));
         crossings.add(new ExitEvent(Vehicle.withRegistration("A123 4NP")));
         assertThat(checkSystem.getTypeOfOrdering(crossings), is(3));
@@ -38,7 +38,7 @@ public class CheckSystemTest {
 
     @Test
     public void correctOrderReturnsNoErrorCode() {
-        List<ZoneBoundaryCrossing> crossings = new ArrayList<ZoneBoundaryCrossing>();
+        List<ZoneBoundaryCrossing> crossings = new ArrayList<>();
         crossings.add(new EntryEvent(Vehicle.withRegistration("A123 4NP")));
         crossings.add(new ExitEvent(Vehicle.withRegistration("A123 4NP")));
         assertThat(checkSystem.getTypeOfOrdering(crossings), is(0));

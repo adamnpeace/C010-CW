@@ -18,7 +18,7 @@ public class CheckSystem {
         return typeOfOrdering(crossings) == 0;
     }
 
-    public int typeOfOrdering(List<ZoneBoundaryCrossing> crossings) {
+    private int typeOfOrdering(List<ZoneBoundaryCrossing> crossings) {
 
         ZoneBoundaryCrossing lastEvent = crossings.get(0);
 
@@ -34,10 +34,8 @@ public class CheckSystem {
             }
             lastEvent = crossing;
         }
-
         return 0;
     }
-
 
     /*
     ######################

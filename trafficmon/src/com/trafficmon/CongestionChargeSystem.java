@@ -4,19 +4,19 @@ import java.util.*;
 
 public class CongestionChargeSystem implements ICongestionChargeSystem {
 
-    private final List<ZoneBoundaryCrossing> eventLog = new ArrayList<ZoneBoundaryCrossing>();
-    private final Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle = new HashMap<Vehicle, List<ZoneBoundaryCrossing>>();
+    private final List<ZoneBoundaryCrossing> eventLog = new ArrayList<>();
+    private final Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle = new HashMap<>();
     private final PenaltiesService operationsTeam;
     private CheckSystem checkSystem;
     private CalculatorSystem calculatorSystem;
 
-    public CongestionChargeSystem() {
+    CongestionChargeSystem() {
         this.checkSystem = new CheckSystem();
         this.operationsTeam = OperationsTeam.getInstance();
         this.calculatorSystem = new CalculatorSystem(operationsTeam, checkSystem);
     }
 
-    public CongestionChargeSystem(PenaltiesService operationsTeam, CheckSystem checkSystem, CalculatorSystem calculatorSystem) {
+    CongestionChargeSystem(PenaltiesService operationsTeam, CheckSystem checkSystem, CalculatorSystem calculatorSystem) {
         this.operationsTeam = operationsTeam;
         this.checkSystem = checkSystem;
         this.calculatorSystem = calculatorSystem;
@@ -27,11 +27,9 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
         EntryEvent entryEvent = new EntryEvent(vehicle);
         eventLog.add(entryEvent);
         if (!crossingsByVehicle.containsKey(vehicle)) {
-            crossingsByVehicle.put(vehicle, new ArrayList<ZoneBoundaryCrossing>());
+            crossingsByVehicle.put(vehicle, new ArrayList<>());
         }
         crossingsByVehicle.get(entryEvent.getVehicle()).add(entryEvent);
-
-
     }
 
     @Override
