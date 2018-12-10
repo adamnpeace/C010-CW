@@ -5,7 +5,7 @@ import java.util.List;
 public class Checker {
 
     public boolean checkOrderingOf(List<ZoneBoundaryCrossing> crossings) {
-        return typeOfOrdering(crossings) == 0 ? true : false;
+        return typeOfOrdering(crossings) == 0;
     }
 
     private int typeOfOrdering(List<ZoneBoundaryCrossing> crossings) {
@@ -13,7 +13,8 @@ public class Checker {
         ZoneBoundaryCrossing lastEvent = crossings.get(0);
 
         for (ZoneBoundaryCrossing crossing : crossings.subList(1, crossings.size())) {
-            if (crossing.timestamp() < lastEvent.timestamp()) {
+            System.out.println(crossing.timestamp()- lastEvent.timestamp());
+            if (crossing instanceof EntryEvent && lastEvent instanceof ExitEvent) {
                 return 1;
             }
             if (crossing instanceof EntryEvent && lastEvent instanceof EntryEvent) {

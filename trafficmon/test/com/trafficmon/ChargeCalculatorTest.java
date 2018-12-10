@@ -60,46 +60,9 @@ public class ChargeCalculatorTest {
         assertThat(calculatedChargeVehicle1.add(calculatedChargeVehicle2).round(precision), is(expectedCharge.round(precision)));
     }*/
 
-    @Test
-    public void exitBeforeEntryReturnsTimeStampErrorCode() {
-        List<ZoneBoundaryCrossing> crossings = new ArrayList<>();
-        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
-        crossings.add(new ExitEvent(vehicle));
-        crossings.add(new EntryEvent(vehicle));
-        Map<Vehicle, List<ZoneBoundaryCrossing>> vehicleCrossings = new HashMap<>();
-        vehicleCrossings.put(vehicle, crossings);
 
-        context.checking(new Expectations() {{
-            exactly(1).of(operationsTeam).triggerInvestigationInto(vehicle);
-        }});
-
-        assertThat(checker.getTypeOfOrdering(crossings), is(1));
-    }
 /*
-    @Test
-    public void twoEntryEventsReturnsDoubleEntryErrorCode() {
 
-        List<ZoneBoundaryCrossing> crossings = new ArrayList<ZoneBoundaryCrossing>();
-        crossings.add(new EntryEvent(Vehicle.withRegistration("A123 4NP")));
-        crossings.add(new EntryEvent(Vehicle.withRegistration("A123 4NP")));
-        assertThat(congestionChargeSystem.getTypeOfOrdering(crossings), is(2));
-    }
-
-    @Test
-    public void twoExitEventsReturnsDoubleExitErrorCode() {
-        List<ZoneBoundaryCrossing> crossings = new ArrayList<ZoneBoundaryCrossing>();
-        crossings.add(new ExitEvent(Vehicle.withRegistration("A123 4NP")));
-        crossings.add(new ExitEvent(Vehicle.withRegistration("A123 4NP")));
-        assertThat(congestionChargeSystem.getTypeOfOrdering(crossings), is(3));
-    }
-
-    @Test
-    public void correctOrderReturnsNoErrorCode() {
-        List<ZoneBoundaryCrossing> crossings = new ArrayList<ZoneBoundaryCrossing>();
-        crossings.add(new EntryEvent(Vehicle.withRegistration("A123 4NP")));
-        crossings.add(new ExitEvent(Vehicle.withRegistration("A123 4NP")));
-        assertThat(congestionChargeSystem.getTypeOfOrdering(crossings), is(0));
-    }
 
     @Test
     public void exitBeforeEntryTriggersInvestigation() {
