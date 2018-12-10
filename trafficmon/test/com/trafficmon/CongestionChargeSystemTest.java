@@ -13,9 +13,10 @@ public class CongestionChargeSystemTest {
 
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();
+    public CheckerInterface checkerInterface = new Checker();
     public PenaltiesService operationsTeam = context.mock(PenaltiesService.class);
-    public Checker checker = new Checker();
-    public ChargeCalculator chargeCalculator = new ChargeCalculator(operationsTeam, checker);
+
+    public ChargeCalculator chargeCalculator = new ChargeCalculator(checkerInterface);
     public CongestionChargeSystem congestionChargeSystem = new CongestionChargeSystem(chargeCalculator);
 
     @Test
@@ -122,7 +123,7 @@ public class CongestionChargeSystemTest {
     public void exitBeforeEntryTriggersInvestigation() {
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
 
-        context.checking(new Expectations() {{
+        context.checkerInterface(new Expectations() {{
             exactly(1).of(operationsTeam).triggerInvestigationInto(vehicle);
         }});
 
@@ -141,7 +142,7 @@ public class CongestionChargeSystemTest {
 
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
 
-        context.checking(new Expectations() {{
+        context.checkerInterface(new Expectations() {{
             exactly(1).of(operationsTeam).issuePenaltyNotice(vehicle, expectedPenalty);
         }});
 
@@ -159,7 +160,7 @@ public class CongestionChargeSystemTest {
 
         Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
 
-        context.checking(new Expectations() {{
+        context.checkerInterface(new Expectations() {{
             exactly(1).of(operationsTeam).issuePenaltyNotice(vehicle, expectedPenalty);
         }});
 

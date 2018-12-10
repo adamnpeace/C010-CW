@@ -3,6 +3,8 @@ package com.trafficmon;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,26 +19,110 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 public class ChargeCalculatorTest {
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();
+    public CheckerInterface checkerInterface = context.mock(CheckerInterface.class);
     public PenaltiesService operationsTeam = context.mock(PenaltiesService.class);
-    public Checker checker = new Checker();
-    public ChargeCalculator chargeCalculator = new ChargeCalculator(operationsTeam, checker);
-/*
+
+    public ChargeCalculator chargeCalculator = new ChargeCalculator(checkerInterface, operationsTeam);
+
     @Test
-    public void eventChargeForEntryAndExit() {
+    public void calculateChargeForTimeInZoneReturnsCorrectVal() throws AccountNotRegisteredException, InsufficientCreditException {
+        Vehicle vehicle1 = Vehicle.withRegistration("J091 4PY");
+        Vehicle vehicle2 = Vehicle.withRegistration("A123 XYZ");
 
-
-
-        Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
-        BigDecimal expectedCharge = new BigDecimal(8.3500);
+        BigDecimal expectedCharge = new BigDecimal(16.7);
         MathContext precision = new MathContext(5);
-        congestionChargeSystem.vehicleEnteringZone(vehicle);
-        congestionChargeSystem.getEventLogElem(0).setNewTimestamp(0);
-        congestionChargeSystem.vehicleLeavingZone(vehicle);
-        congestionChargeSystem.getEventLogElem(1).setNewTimestamp(10000000);
-        BigDecimal calculatedCharge = chargeCalculator.calculateCharges(congestionChargeSystem.getHashMap());
-        assertThat(calculatedCharge.round(precision), is(expectedCharge.round(precision)));
+        List<ZoneBoundaryCrossing> fakeEventLog = new ArrayList<>();
+
+        ZoneBoundaryCrossing crossing1v1 = new EntryEvent(vehicle1);
+        crossing1v1.setNewTimestamp(0);
+        ZoneBoundaryCrossing crossing2v1 = new ExitEvent(vehicle1);
+        crossing2v1.setNewTimestamp(10000000);
+        fakeEventLog.add(crossing1v1);
+        fakeEventLog.add(crossing2v1);
+
+        ZoneBoundaryCrossing crossing1v2 = new EntryEvent(vehicle2);
+        crossing1v2.setNewTimestamp(10000000);
+        ZoneBoundaryCrossing crossing2v2 = new ExitEvent(vehicle2);
+        crossing2v2.setNewTimestamp(20000000);
+        fakeEventLog.add(crossing1v2);
+        fakeEventLog.add(crossing2v2);
+
+
+        BigDecimal actualCharge = chargeCalculator.getCalculateCharges(fakeEventLog);
+
+        assertThat(actualCharge.round(precision), is(expectedCharge.round(precision)));
     }
 
+    @Test
+    public void calculateChargesReturnsCorrectVal() throws AccountNotRegisteredException, InsufficientCreditException {
+        Vehicle vehicle1 = Vehicle.withRegistration("J091 4PY");
+        Vehicle vehicle2 = Vehicle.withRegistration("A123 XYZ");
+
+        BigDecimal expectedCharge = new BigDecimal(16.7);
+        MathContext precision = new MathContext(5);
+        List<ZoneBoundaryCrossing> fakeEventLog = new ArrayList<>();
+
+        ZoneBoundaryCrossing crossing1v1 = new EntryEvent(vehicle1);
+        crossing1v1.setNewTimestamp(0);
+        ZoneBoundaryCrossing crossing2v1 = new ExitEvent(vehicle1);
+        crossing2v1.setNewTimestamp(10000000);
+        fakeEventLog.add(crossing1v1);
+        fakeEventLog.add(crossing2v1);
+
+        ZoneBoundaryCrossing crossing1v2 = new EntryEvent(vehicle2);
+        crossing1v2.setNewTimestamp(10000000);
+        ZoneBoundaryCrossing crossing2v2 = new ExitEvent(vehicle2);
+        crossing2v2.setNewTimestamp(20000000);
+        fakeEventLog.add(crossing1v2);
+        fakeEventLog.add(crossing2v2);
+
+
+        BigDecimal charge = chargeCalculator.getCalculateCharges(fakeEventLog);
+        Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle = new HashMap<>();
+
+        crossingsByVehicle.put(vehicle1, fakeEventLog);
+        crossingsByVehicle.put(vehicle2, fakeEventLog);
+
+        assertThat(charge.round(precision), is(expectedCharge.round(precision)));
+    }
+
+    @Test
+    public void correctOrderingCausesCharge() {
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+        BigDecimal fakeCharge = new BigDecimal(1);
+
+        context.checking(new Expectations() {{
+            exactly(0).of(operationsTeam).issuePenaltyNotice(vehicle, fakeCharge);
+        }});
+
+        chargeCalculator.executeCharge(vehicle, fakeCharge);
+    }
+
+    @Test
+    public void insufficientCreditCausesPenalty() {
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+        BigDecimal fakeCharge = new BigDecimal(100000000);
+
+        context.checking(new Expectations() {{
+            exactly(1).of(operationsTeam).issuePenaltyNotice(vehicle, fakeCharge);
+        }});
+
+        chargeCalculator.executeCharge(vehicle, fakeCharge);
+    }
+
+    @Test
+    public void unregisteredAccountCausesPenalty() {
+        Vehicle vehicle = Vehicle.withRegistration("ABCDEF");
+        BigDecimal fakeCharge = new BigDecimal(1);
+
+        context.checking(new Expectations() {{
+            exactly(1).of(operationsTeam).issuePenaltyNotice(vehicle, fakeCharge);
+        }});
+
+        chargeCalculator.executeCharge(vehicle, fakeCharge);
+    }
+
+/*
     @Test
     public void eventChargeForEntryAndExitTwoVehicles() {
         Vehicle vehicle1 = Vehicle.withRegistration("A123 4NP");
@@ -68,7 +154,7 @@ public class ChargeCalculatorTest {
     public void exitBeforeEntryTriggersInvestigation() {
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
 
-        context.checking(new Expectations() {{
+        context.checkerInterface(new Expectations() {{
             exactly(1).of(operationsTeam).triggerInvestigationInto(vehicle);
         }});
 
@@ -87,7 +173,7 @@ public class ChargeCalculatorTest {
 
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
 
-        context.checking(new Expectations() {{
+        context.checkerInterface(new Expectations() {{
             exactly(1).of(operationsTeam).issuePenaltyNotice(vehicle, expectedPenalty);
         }});
 
@@ -105,7 +191,7 @@ public class ChargeCalculatorTest {
 
         Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
 
-        context.checking(new Expectations() {{
+        context.checkerInterface(new Expectations() {{
             exactly(1).of(operationsTeam).issuePenaltyNotice(vehicle, expectedPenalty);
         }});
 

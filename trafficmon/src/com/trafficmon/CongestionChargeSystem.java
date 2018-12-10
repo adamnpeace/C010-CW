@@ -1,6 +1,5 @@
 package com.trafficmon;
 
-import java.math.BigDecimal;
 import java.util.*;
 /*
 Changes made to constructor, calculateCharges, checkOrderingOf, typeOfOrdering, getTypeOfOrdering, getEventLogSize, getEventLogElem
@@ -17,8 +16,15 @@ public class CongestionChargeSystem {
     }
 
     public void calculateCharges() {
+        for (ZoneBoundaryCrossing crossing : eventLog) {
+            if (!vehicleCrossings.containsKey(crossing.getVehicle())) {
+                vehicleCrossings.put(crossing.getVehicle(), new ArrayList<ZoneBoundaryCrossing>());
+            }
+            vehicleCrossings.get(crossing.getVehicle()).add(crossing);
+        }
         chargeCalculator.calculateCharges(vehicleCrossings);
     }
+
     public void vehicleEnteringZone(Vehicle vehicle) {
         eventLog.add(new EntryEvent(vehicle));
     }
