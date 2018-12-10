@@ -2,6 +2,7 @@ package com.trafficmon;
 
 import org.junit.Test;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +16,8 @@ public class CheckSystemTest {
         List<ZoneBoundaryCrossing> crossings = new ArrayList<>();
         crossings.add(new EntryEvent(Vehicle.withRegistration("A123 4NP")));
         crossings.add(new ExitEvent(Vehicle.withRegistration("A123 4NP")));
-        crossings.get(0).setNewTimestamp(1000);
-        crossings.get(1).setNewTimestamp(0);
+        crossings.get(0).setNewTimestamp(LocalTime.of(12, 00));
+        crossings.get(1).setNewTimestamp(LocalTime.of(11, 00));
         assertThat(checkSystem.getTypeOfOrdering(crossings), is(1));
     }
 

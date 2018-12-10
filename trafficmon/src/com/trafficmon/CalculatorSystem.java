@@ -2,13 +2,13 @@ package com.trafficmon;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CalculatorSystem {
+import java.time.Duration;
+import java.time.LocalTime;
 
-    BigDecimal CHARGE_RATE_POUNDS_PER_MINUTE = new BigDecimal(0.05);
+public class CalculatorSystem {
 
     private PenaltiesService operationsTeam;
     private CheckSystem checkSystem;
@@ -26,7 +26,7 @@ public class CalculatorSystem {
             if (!checkSystem.checkOrderingOf(crossings)) {
                 operationsTeam.triggerInvestigationInto(vehicle);
             } else {
-                BigDecimal charge = calculateChargeForTimeInZone(crossings);
+                BigDecimal charge = new BigDecimal(calculateChargeForTimeInZone(crossings));
                 makeChargeTo(vehicle, charge);
             }
         }
@@ -40,23 +40,30 @@ public class CalculatorSystem {
         }
     }
 
-    private BigDecimal calculateChargeForTimeInZone(List<ZoneBoundaryCrossing> crossings) {
+    private int calculateChargeForTimeInZone(List<ZoneBoundaryCrossing> crossings) {
 
-        BigDecimal charge = new BigDecimal(0);
+        int charge = 0;
 
         ZoneBoundaryCrossing lastEvent = crossings.get(0);
 
         for (ZoneBoundaryCrossing crossing : crossings.subList(1, crossings.size())) {
-
             if (crossing instanceof ExitEvent) {
-                charge = charge.add(
-                        new BigDecimal(minutesBetween(lastEvent.timestamp(), crossing.timestamp()))
-                                .multiply(CHARGE_RATE_POUNDS_PER_MINUTE));
+                if (crossing.timestamp().minusHours(4).isBefore(lastEvent.timestamp())) {
+                    // Less than 4 hours
+                    if (lastEvent.timestamp().isBefore(LocalTime.of(14, 00))) {
+                        // Before 1400
+                        charge += 6;
+                    } else {
+                        // After 1400
+                        charge += 4;
+                    }
+                } else {
+                    // Greater than 4 hours
+                    charge += 12;
+                }
             }
-
             lastEvent = crossing;
         }
-
         return charge;
     }
 
@@ -70,7 +77,7 @@ public class CalculatorSystem {
     TESTING
     ######################
      */
-    public BigDecimal getCalculateCharges(ZoneBoundaryCrossing entry, ZoneBoundaryCrossing exit) {
+    public int getCalculateCharges(ZoneBoundaryCrossing entry, ZoneBoundaryCrossing exit) {
         List<ZoneBoundaryCrossing> mockEventLog = new ArrayList<ZoneBoundaryCrossing>();
         mockEventLog.add(entry);
         mockEventLog.add(exit);
