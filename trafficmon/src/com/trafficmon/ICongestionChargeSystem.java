@@ -11,10 +11,13 @@ public interface ICongestionChargeSystem {
 
     void calculateCharges();
 
+    /*
+    ######################
+    TESTING
+    ######################
+     */
     int getEventLogSize();
 
     ZoneBoundaryCrossing getEventLogElem(int index);
-
-    BigDecimal getCalculateCharges(ZoneBoundaryCrossing entry, ZoneBoundaryCrossing exit);
 
 }

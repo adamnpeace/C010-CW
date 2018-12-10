@@ -63,7 +63,7 @@ public class CongestionChargeSystemTest {
         ICongestionChargeSystem.getEventLogElem(0).setNewTimestamp(0);
         ICongestionChargeSystem.vehicleLeavingZone(vehicle);
         ICongestionChargeSystem.getEventLogElem(1).setNewTimestamp(10000000);
-        BigDecimal calculatedCharge = ICongestionChargeSystem.getCalculateCharges(
+        BigDecimal calculatedCharge = calculatorSystem.getCalculateCharges(
                 ICongestionChargeSystem.getEventLogElem(0),
                 ICongestionChargeSystem.getEventLogElem(1));
         assertThat(calculatedCharge.round(precision), is(expectedCharge.round(precision)));
@@ -83,10 +83,10 @@ public class CongestionChargeSystemTest {
         ICongestionChargeSystem.getEventLogElem(2).setNewTimestamp(20000000);
         ICongestionChargeSystem.vehicleLeavingZone(vehicle2);
         ICongestionChargeSystem.getEventLogElem(3).setNewTimestamp(30000000);
-        BigDecimal calculatedChargeVehicle1 = ICongestionChargeSystem.getCalculateCharges(
+        BigDecimal calculatedChargeVehicle1 = calculatorSystem.getCalculateCharges(
                 ICongestionChargeSystem.getEventLogElem(0),
                 ICongestionChargeSystem.getEventLogElem(2));
-        BigDecimal calculatedChargeVehicle2 = ICongestionChargeSystem.getCalculateCharges(
+        BigDecimal calculatedChargeVehicle2 = calculatorSystem.getCalculateCharges(
                 ICongestionChargeSystem.getEventLogElem(1),
                 ICongestionChargeSystem.getEventLogElem(3));
         assertThat(calculatedChargeVehicle1.add(calculatedChargeVehicle2).round(precision), is(expectedCharge.round(precision)));

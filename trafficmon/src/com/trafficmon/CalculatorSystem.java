@@ -2,7 +2,6 @@ package com.trafficmon;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,17 +17,7 @@ public class CalculatorSystem {
         this.checkSystem = checkSystem;
     }
 
-    public void calculateCharges(List<ZoneBoundaryCrossing> eventLog) {
-
-        Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle = new HashMap<Vehicle, List<ZoneBoundaryCrossing>>();
-
-        for (ZoneBoundaryCrossing crossing : eventLog) {
-            if (!crossingsByVehicle.containsKey(crossing.getVehicle())) {
-                crossingsByVehicle.put(crossing.getVehicle(), new ArrayList<ZoneBoundaryCrossing>());
-            }
-            crossingsByVehicle.get(crossing.getVehicle()).add(crossing);
-        }
-
+    public void calculateCharges(Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle) {
         for (Map.Entry<Vehicle, List<ZoneBoundaryCrossing>> vehicleCrossings : crossingsByVehicle.entrySet()) {
             Vehicle vehicle = vehicleCrossings.getKey();
             List<ZoneBoundaryCrossing> crossings = vehicleCrossings.getValue();
@@ -41,9 +30,7 @@ public class CalculatorSystem {
 
                 try {
                     RegisteredCustomerAccountsService.getInstance().accountFor(vehicle).deduct(charge);
-                } catch (InsufficientCreditException ice) {
-                    operationsTeam.issuePenaltyNotice(vehicle, charge);
-                } catch (AccountNotRegisteredException e) {
+                } catch (InsufficientCreditException | AccountNotRegisteredException e) {
                     operationsTeam.issuePenaltyNotice(vehicle, charge);
                 }
             }
@@ -74,6 +61,18 @@ public class CalculatorSystem {
         return (int) Math.ceil((endTimeMs - startTimeMs) / (1000.0 * 60.0));
     }
 
+
+    /*
+    ######################
+    TESTING
+    ######################
+     */
+    public BigDecimal getCalculateCharges(ZoneBoundaryCrossing entry, ZoneBoundaryCrossing exit) {
+        List<ZoneBoundaryCrossing> mockEventLog = new ArrayList<ZoneBoundaryCrossing>();
+        mockEventLog.add(entry);
+        mockEventLog.add(exit);
+        return calculateChargeForTimeInZone(mockEventLog);
+    }
 
 
 }

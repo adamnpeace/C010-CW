@@ -1,10 +1,7 @@
 package com.trafficmon;
 
-import java.math.BigDecimal;
 import java.util.*;
-/*
-Changes made to constructor, calculateCharges, checkOrderingOf, typeOfOrdering, getTypeOfOrdering, getEventLogSize, getEventLogElem
- */
+
 public class CongestionChargeSystem implements ICongestionChargeSystem {
 
     private final List<ZoneBoundaryCrossing> eventLog = new ArrayList<ZoneBoundaryCrossing>();
@@ -15,7 +12,6 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
 
     public CongestionChargeSystem() {
         this.checkSystem = new CheckSystem();
-
         this.operationsTeam = OperationsTeam.getInstance();
         this.calculatorSystem = new CalculatorSystem(operationsTeam, checkSystem);
     }
@@ -40,7 +36,15 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
 
     @Override
     public void calculateCharges() {
-        calculatorSystem.calculateCharges(eventLog);
+        Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle = new HashMap<Vehicle, List<ZoneBoundaryCrossing>>();
+
+        for (ZoneBoundaryCrossing crossing : eventLog) {
+            if (!crossingsByVehicle.containsKey(crossing.getVehicle())) {
+                crossingsByVehicle.put(crossing.getVehicle(), new ArrayList<ZoneBoundaryCrossing>());
+            }
+            crossingsByVehicle.get(crossing.getVehicle()).add(crossing);
+        }
+        calculatorSystem.calculateCharges(crossingsByVehicle);
     }
 
 
@@ -59,13 +63,6 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
         return eventLog.get(index);
     }
 
-    @Override
-    public BigDecimal getCalculateCharges(ZoneBoundaryCrossing entry, ZoneBoundaryCrossing exit) {
-        List<ZoneBoundaryCrossing> mockEventLog = new ArrayList<ZoneBoundaryCrossing>();
-        mockEventLog.add(entry);
-        mockEventLog.add(exit);
-        return calculatorSystem.calculateChargeForTimeInZone(mockEventLog);
-    }
 
 
 }
