@@ -20,7 +20,9 @@ public class CongestionChargeSystemTest {
     public JUnitRuleMockery context = new JUnitRuleMockery();
 
     PenaltiesService operationsTeam = context.mock(PenaltiesService.class);
-    ICongestionChargeSystem ICongestionChargeSystem = new CongestionChargeSystem(operationsTeam, new CheckSystem());
+    CheckSystem checkSystem = new CheckSystem();
+    CalculatorSystem calculatorSystem = new CalculatorSystem(operationsTeam, checkSystem);
+    ICongestionChargeSystem ICongestionChargeSystem = new CongestionChargeSystem(operationsTeam, checkSystem, calculatorSystem);
 
     @Test
     public void vehicleEnteringAndLeavingZoneCreatesTwoEvents() {
@@ -109,7 +111,7 @@ public class CongestionChargeSystemTest {
     @Test
     public void insufficientFundsTriggersPenalty() {
         BigDecimal expectedPenalty = new BigDecimal(Math.ceil((1000000000) / (1000.0 * 60.0)))
-                .multiply(ICongestionChargeSystem.CHARGE_RATE_POUNDS_PER_MINUTE);
+                .multiply(calculatorSystem.CHARGE_RATE_POUNDS_PER_MINUTE);
 
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
 
@@ -127,7 +129,7 @@ public class CongestionChargeSystemTest {
     @Test
     public void unregisteredAccountTriggersPenalty() {
         BigDecimal expectedPenalty = new BigDecimal(Math.ceil((10) / (1000.0 * 60.0)))
-                .multiply(ICongestionChargeSystem.CHARGE_RATE_POUNDS_PER_MINUTE);
+                .multiply(calculatorSystem.CHARGE_RATE_POUNDS_PER_MINUTE);
 
         Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
 

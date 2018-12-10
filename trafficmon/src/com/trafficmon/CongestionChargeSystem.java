@@ -11,15 +11,19 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
 
     private final PenaltiesService operationsTeam;
     private CheckSystem checkSystem;
+    private CalculatorSystem calculatorSystem;
 
     public CongestionChargeSystem() {
         this.checkSystem = new CheckSystem();
+
         this.operationsTeam = OperationsTeam.getInstance();
+        this.calculatorSystem = new CalculatorSystem(operationsTeam, checkSystem);
     }
 
-    public CongestionChargeSystem(PenaltiesService operationsTeam, CheckSystem checkSystem) {
+    public CongestionChargeSystem(PenaltiesService operationsTeam, CheckSystem checkSystem, CalculatorSystem calculatorSystem) {
         this.operationsTeam = operationsTeam;
         this.checkSystem = checkSystem;
+        this.calculatorSystem = calculatorSystem;
     }
 
     @Override
@@ -36,35 +40,7 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
 
     @Override
     public void calculateCharges() {
-
-        Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle = new HashMap<Vehicle, List<ZoneBoundaryCrossing>>();
-
-        for (ZoneBoundaryCrossing crossing : eventLog) {
-            if (!crossingsByVehicle.containsKey(crossing.getVehicle())) {
-                crossingsByVehicle.put(crossing.getVehicle(), new ArrayList<ZoneBoundaryCrossing>());
-            }
-            crossingsByVehicle.get(crossing.getVehicle()).add(crossing);
-        }
-
-        for (Map.Entry<Vehicle, List<ZoneBoundaryCrossing>> vehicleCrossings : crossingsByVehicle.entrySet()) {
-            Vehicle vehicle = vehicleCrossings.getKey();
-            List<ZoneBoundaryCrossing> crossings = vehicleCrossings.getValue();
-
-            if (!checkSystem.checkOrderingOf(crossings)) {
-                operationsTeam.triggerInvestigationInto(vehicle);
-            } else {
-
-                BigDecimal charge = calculateChargeForTimeInZone(crossings);
-
-                try {
-                    RegisteredCustomerAccountsService.getInstance().accountFor(vehicle).deduct(charge);
-                } catch (InsufficientCreditException ice) {
-                    operationsTeam.issuePenaltyNotice(vehicle, charge);
-                } catch (AccountNotRegisteredException e) {
-                    operationsTeam.issuePenaltyNotice(vehicle, charge);
-                }
-            }
-        }
+        calculatorSystem.calculateCharges(eventLog);
     }
 
 
@@ -88,7 +64,7 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
         List<ZoneBoundaryCrossing> mockEventLog = new ArrayList<ZoneBoundaryCrossing>();
         mockEventLog.add(entry);
         mockEventLog.add(exit);
-        return calculateChargeForTimeInZone(mockEventLog);
+        return calculatorSystem.calculateChargeForTimeInZone(mockEventLog);
     }
 
 
