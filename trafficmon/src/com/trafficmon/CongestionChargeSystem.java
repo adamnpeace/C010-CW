@@ -5,28 +5,36 @@ import java.util.*;
 /*
 Changes made to constructor, calculateCharges, checkOrderingOf, typeOfOrdering, getTypeOfOrdering, getEventLogSize, getEventLogElem
  */
-public class CongestionChargeSystem {
-
-    public static final BigDecimal CHARGE_RATE_POUNDS_PER_MINUTE = new BigDecimal(0.05);
+public class CongestionChargeSystem implements ICongestionChargeSystem {
 
     private final List<ZoneBoundaryCrossing> eventLog = new ArrayList<ZoneBoundaryCrossing>();
 
     private final PenaltiesService operationsTeam;
+    private CheckSystem checkSystem;
 
-    public CongestionChargeSystem(PenaltiesService operationsTeam) {
-        this.operationsTeam = operationsTeam;
+    public CongestionChargeSystem() {
+        this.checkSystem = new CheckSystem();
+        this.operationsTeam = OperationsTeam.getInstance();
     }
 
+    public CongestionChargeSystem(PenaltiesService operationsTeam, CheckSystem checkSystem) {
+        this.operationsTeam = operationsTeam;
+        this.checkSystem = checkSystem;
+    }
+
+    @Override
     public void vehicleEnteringZone(Vehicle vehicle) {
         eventLog.add(new EntryEvent(vehicle));
     }
 
+    @Override
     public void vehicleLeavingZone(Vehicle vehicle) {
-        if (previouslyRegistered(vehicle)) {
+        if (checkSystem.previouslyRegistered(vehicle, eventLog)) {
             eventLog.add(new ExitEvent(vehicle));
         }
     }
 
+    @Override
     public void calculateCharges() {
 
         Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle = new HashMap<Vehicle, List<ZoneBoundaryCrossing>>();
@@ -42,7 +50,7 @@ public class CongestionChargeSystem {
             Vehicle vehicle = vehicleCrossings.getKey();
             List<ZoneBoundaryCrossing> crossings = vehicleCrossings.getValue();
 
-            if (!checkOrderingOf(crossings)) {
+            if (!checkSystem.checkOrderingOf(crossings)) {
                 operationsTeam.triggerInvestigationInto(vehicle);
             } else {
 
@@ -59,48 +67,23 @@ public class CongestionChargeSystem {
         }
     }
 
-    private BigDecimal calculateChargeForTimeInZone(List<ZoneBoundaryCrossing> crossings) {
 
-        BigDecimal charge = new BigDecimal(0);
-
-        ZoneBoundaryCrossing lastEvent = crossings.get(0);
-
-        for (ZoneBoundaryCrossing crossing : crossings.subList(1, crossings.size())) {
-
-            if (crossing instanceof ExitEvent) {
-                charge = charge.add(
-                        new BigDecimal(minutesBetween(lastEvent.timestamp(), crossing.timestamp()))
-                                .multiply(CHARGE_RATE_POUNDS_PER_MINUTE));
-            }
-
-            lastEvent = crossing;
-        }
-
-        return charge;
-    }
-
-    private boolean previouslyRegistered(Vehicle vehicle) {
-        boolean res = false;
-        for (ZoneBoundaryCrossing crossing : eventLog) {
-            if (crossing.getVehicle().equals(vehicle)) {
-                res = true;
-            }
-        }
-        return res;
-    }
-
-    private int minutesBetween(long startTimeMs, long endTimeMs) {
-        return (int) Math.ceil((endTimeMs - startTimeMs) / (1000.0 * 60.0));
-    }
-
+    /*
+    ######################
+    TESTING
+    ######################
+     */
+    @Override
     public int getEventLogSize() {
         return eventLog.size();
     }
 
+    @Override
     public ZoneBoundaryCrossing getEventLogElem(int index) {
         return eventLog.get(index);
     }
 
+    @Override
     public BigDecimal getCalculateCharges(ZoneBoundaryCrossing entry, ZoneBoundaryCrossing exit) {
         List<ZoneBoundaryCrossing> mockEventLog = new ArrayList<ZoneBoundaryCrossing>();
         mockEventLog.add(entry);
@@ -108,32 +91,5 @@ public class CongestionChargeSystem {
         return calculateChargeForTimeInZone(mockEventLog);
     }
 
-    private boolean checkOrderingOf(List<ZoneBoundaryCrossing> crossings) {
-        return typeOfOrdering(crossings) == 0 ? true : false;
-    }
-
-    private int typeOfOrdering(List<ZoneBoundaryCrossing> crossings) {
-
-        ZoneBoundaryCrossing lastEvent = crossings.get(0);
-
-        for (ZoneBoundaryCrossing crossing : crossings.subList(1, crossings.size())) {
-            if (crossing.timestamp() < lastEvent.timestamp()) {
-                return 1;
-            }
-            if (crossing instanceof EntryEvent && lastEvent instanceof EntryEvent) {
-                return 2;
-            }
-            if (crossing instanceof ExitEvent && lastEvent instanceof ExitEvent) {
-                return 3;
-            }
-            lastEvent = crossing;
-        }
-
-        return 0;
-    }
-
-    public int getTypeOfOrdering(List<ZoneBoundaryCrossing> crossings) {
-        return typeOfOrdering(crossings);
-    }
 
 }
