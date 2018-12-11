@@ -18,14 +18,14 @@ public class VehicleTest {
     public void twoSimilarVehiclesEqualEachother() {
         Vehicle vehicleA = Vehicle.withRegistration("A123 4NP");
         Vehicle vehicleB = Vehicle.withRegistration("A123 4NP");
-        assertTrue(vehicleA.equals(vehicleB));
+        assertEquals(vehicleA, vehicleB);
     }
 
     @Test
     public void twoDifferentVehiclesDoNotEqualEachother() {
         Vehicle vehicleA = Vehicle.withRegistration("A123 4NP");
         Vehicle vehicleB = Vehicle.withRegistration("S123 4EF");
-        assertFalse(vehicleA.equals(vehicleB));
+        assertNotEquals(vehicleA, vehicleB);
     }
 
     @Test

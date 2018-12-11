@@ -25,14 +25,14 @@ public class CongestionChargeSystemTest {
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();
 
-    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-    PrintStream printStream = new PrintStream(stream);
-    PrintStream systemOut = System.out;
-    PenaltiesService operationsTeam = context.mock(PenaltiesService.class);
-    CheckSystem checkSystem = new CheckSystem();
-    AccountsService accountsService = context.mock(AccountsService.class);
-    CalculatorSystem calculatorSystem = new CalculatorSystem(operationsTeam, checkSystem, accountsService);
-    CongestionChargeSystem congestionChargeSystem = new CongestionChargeSystem(operationsTeam, checkSystem, calculatorSystem);
+    private ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    private PrintStream printStream = new PrintStream(stream);
+    private PrintStream systemOut = System.out;
+    private PenaltiesService operationsTeam = context.mock(PenaltiesService.class);
+    private CheckSystem checkSystem = new CheckSystem();
+    private AccountsService accountsService = context.mock(AccountsService.class);
+    private CalculatorSystem calculatorSystem = new CalculatorSystem(operationsTeam, checkSystem, accountsService);
+    private CongestionChargeSystem congestionChargeSystem = new CongestionChargeSystem(operationsTeam, checkSystem, calculatorSystem);
 
     // Following 2 methods redirect the console log to a bytearray that can be accessed
     // throughout the code.

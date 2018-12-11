@@ -19,9 +19,9 @@ public class CalculatorSystemTest {
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();
 
-    PenaltiesService operationsTeam = context.mock(PenaltiesService.class);
-    CheckSystem checkSystem = new CheckSystem();
-    CalculatorSystem calculatorSystem = new CalculatorSystem(operationsTeam, checkSystem);
+    private PenaltiesService operationsTeam = context.mock(PenaltiesService.class);
+    private CheckSystem checkSystem = new CheckSystem();
+    private CalculatorSystem calculatorSystem = new CalculatorSystem(operationsTeam, checkSystem);
     /*
         ######################
         Correct Single Entries
@@ -54,7 +54,7 @@ public class CalculatorSystemTest {
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
         int expectedCharge = 4;
         LocalTime entryTime = LocalTime.of(14, 01);
-        LocalTime exitTime = LocalTime.of(18, 00);
+        LocalTime exitTime = LocalTime.of(18, 0);
 
         List<ZoneBoundaryCrossing> fakeEventLog = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public class CalculatorSystemTest {
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
         int expectedCharge = 12;
         LocalTime entryTime = LocalTime.of(13, 59);
-        LocalTime exitTime = LocalTime.of(18, 00);
+        LocalTime exitTime = LocalTime.of(18, 0);
 
         List<ZoneBoundaryCrossing> fakeEventLog = new ArrayList<>();
 
@@ -184,10 +184,10 @@ public class CalculatorSystemTest {
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
         int expectedCharge = 10;
 
-        LocalTime entryTime1 = LocalTime.of(13, 00);
-        LocalTime exitTime1 = LocalTime.of(14, 00);
-        LocalTime entryTime2 = LocalTime.of(18, 00);
-        LocalTime exitTime2 = LocalTime.of(20, 00);
+        LocalTime entryTime1 = LocalTime.of(13, 0);
+        LocalTime exitTime1 = LocalTime.of(14, 0);
+        LocalTime entryTime2 = LocalTime.of(18, 0);
+        LocalTime exitTime2 = LocalTime.of(20, 0);
 
         EntryEvent entryEvent1 = new EntryEvent(vehicle);
         ExitEvent exitEvent1 = new ExitEvent(vehicle);
@@ -213,10 +213,10 @@ public class CalculatorSystemTest {
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
         int expectedCharge = 8;
 
-        LocalTime entryTime1 = LocalTime.of(15, 00);
-        LocalTime exitTime1 = LocalTime.of(16, 00);
-        LocalTime entryTime2 = LocalTime.of(20, 00);
-        LocalTime exitTime2 = LocalTime.of(22, 00);
+        LocalTime entryTime1 = LocalTime.of(15, 0);
+        LocalTime exitTime1 = LocalTime.of(16, 0);
+        LocalTime entryTime2 = LocalTime.of(20, 0);
+        LocalTime exitTime2 = LocalTime.of(22, 0);
 
         EntryEvent entryEvent1 = new EntryEvent(vehicle);
         ExitEvent exitEvent1 = new ExitEvent(vehicle);
@@ -242,14 +242,14 @@ public class CalculatorSystemTest {
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
         int expectedCharge = 12;
 
-        LocalTime entryTime1 = LocalTime.of(10, 00);
-        LocalTime exitTime1 = LocalTime.of(11, 00);
-        LocalTime entryTime2 = LocalTime.of(12, 00);
-        LocalTime exitTime2 = LocalTime.of(13, 00);
-        LocalTime entryTime3 = LocalTime.of(14, 00);
-        LocalTime exitTime3 = LocalTime.of(15, 00);
-        LocalTime entryTime4 = LocalTime.of(16, 00);
-        LocalTime exitTime4 = LocalTime.of(17, 00);
+        LocalTime entryTime1 = LocalTime.of(10, 0);
+        LocalTime exitTime1 = LocalTime.of(11, 0);
+        LocalTime entryTime2 = LocalTime.of(12, 0);
+        LocalTime exitTime2 = LocalTime.of(13, 0);
+        LocalTime entryTime3 = LocalTime.of(14, 0);
+        LocalTime exitTime3 = LocalTime.of(15, 0);
+        LocalTime entryTime4 = LocalTime.of(16, 0);
+        LocalTime exitTime4 = LocalTime.of(17, 0);
 
         EntryEvent entryEvent1 = new EntryEvent(vehicle);
         ExitEvent exitEvent1 = new ExitEvent(vehicle);
@@ -296,8 +296,8 @@ public class CalculatorSystemTest {
         EntryEvent entryEvent = new EntryEvent(vehicle);
         ExitEvent exitEvent = new ExitEvent(vehicle);
 
-        entryEvent.setNewTimestamp(LocalTime.of(5, 00));
-        exitEvent.setNewTimestamp(LocalTime.of(4, 00));
+        entryEvent.setNewTimestamp(LocalTime.of(5, 0));
+        exitEvent.setNewTimestamp(LocalTime.of(4, 0));
 
         fakeEventLog.add(entryEvent);
         fakeEventLog.add(exitEvent);

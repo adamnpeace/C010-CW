@@ -10,14 +10,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class CheckSystemTest {
-    CheckSystem checkSystem = new CheckSystem();
+    private CheckSystem checkSystem = new CheckSystem();
     @Test
     public void exitBeforeEntryReturnsTimeStampErrorCode() {
         List<ZoneBoundaryCrossing> crossings = new ArrayList<>();
         crossings.add(new EntryEvent(Vehicle.withRegistration("A123 4NP")));
         crossings.add(new ExitEvent(Vehicle.withRegistration("A123 4NP")));
-        crossings.get(0).setNewTimestamp(LocalTime.of(12, 00));
-        crossings.get(1).setNewTimestamp(LocalTime.of(11, 00));
+        crossings.get(0).setNewTimestamp(LocalTime.of(12, 0));
+        crossings.get(1).setNewTimestamp(LocalTime.of(11, 0));
         assertThat(checkSystem.getTypeOfOrdering(crossings), is(1));
     }
 
