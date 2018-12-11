@@ -7,6 +7,10 @@ public class Vehicle {
     private Vehicle(String registration) {
         this.registration = registration;
     }
+    
+    public boolean isElectric() {
+        return isElectric;
+    }
 
     public static Vehicle withRegistration(String registration) {
         return new Vehicle(registration);
