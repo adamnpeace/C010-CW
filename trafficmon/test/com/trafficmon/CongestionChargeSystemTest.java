@@ -32,7 +32,7 @@ public class CongestionChargeSystemTest {
     CheckSystem checkSystem = new CheckSystem();
     AccountsService accountsService = context.mock(AccountsService.class);
     CalculatorSystem calculatorSystem = new CalculatorSystem(operationsTeam, checkSystem, accountsService);
-    ICongestionChargeSystem congestionChargeSystem = new CongestionChargeSystem(operationsTeam, checkSystem, calculatorSystem);
+    CongestionChargeSystem congestionChargeSystem = new CongestionChargeSystem(operationsTeam, checkSystem, calculatorSystem);
 
     // Following 2 methods redirect the console to a bytearray that can be accessed
     // throughout the code.
