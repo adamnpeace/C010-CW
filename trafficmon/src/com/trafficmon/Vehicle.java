@@ -3,6 +3,8 @@ package com.trafficmon;
 public class Vehicle {
 
     private final String registration;
+    
+    private final boolean isElectric;
 
     private Vehicle(String registration) {
         this.registration = registration;
