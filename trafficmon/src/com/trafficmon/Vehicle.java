@@ -6,8 +6,9 @@ public class Vehicle {
     
     private final boolean isElectric;
 
-    private Vehicle(String registration) {
+    private Vehicle(String registration, boolean isElectric) {
         this.registration = registration;
+        this.isElectric = isElectric;
     }
     
     public boolean isElectric() {
