@@ -187,7 +187,33 @@ public class CongestionChargeSystemTest {
     */
 
     @Test
-    public void afterTwoReentryWithinFourHours() throws AccountNotRegisteredException {
+    public void beforeTwoReentryWithinFourHoursChargesSixPounds() throws AccountNotRegisteredException {
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+        String expectedOutput = new String("Charge made to account of Adam Peace, £6.00 deducted, balance: £494.00\n");
+        LocalTime entryTime1 = LocalTime.of(14, 01);
+        LocalTime exitTime1 = LocalTime.of(15, 01);
+        LocalTime entryTime2 = LocalTime.of(16, 01);
+        LocalTime exitTime2 = LocalTime.of(17, 01);
+        congestionChargeSystem.vehicleEnteringZone(vehicle);
+        congestionChargeSystem.getEventLogElem(0).setNewTimestamp(entryTime1);
+        congestionChargeSystem.vehicleLeavingZone(vehicle);
+        congestionChargeSystem.getEventLogElem(1).setNewTimestamp(exitTime1);
+        congestionChargeSystem.vehicleEnteringZone(vehicle);
+        congestionChargeSystem.getEventLogElem(2).setNewTimestamp(entryTime2);
+        congestionChargeSystem.vehicleLeavingZone(vehicle);
+        congestionChargeSystem.getEventLogElem(3).setNewTimestamp(exitTime2);
+
+        final Account account = new Account("Adam Peace", Vehicle.withRegistration("A123 4NP"), new BigDecimal(500));
+
+        context.checking(new Expectations() {{
+        allowing(accountsService).accountFor(vehicle); will(returnValue(account));
+    }});
+        congestionChargeSystem.calculateCharges();
+    assertThat(stream.toString(), is(expectedOutput));
+}
+
+    @Test
+    public void afterTwoReentryWithinFourHoursChargesFourPounds() throws AccountNotRegisteredException {
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
         String expectedOutput = new String("Charge made to account of Adam Peace, £4.00 deducted, balance: £496.00\n");
         LocalTime entryTime1 = LocalTime.of(14, 01);
@@ -199,9 +225,9 @@ public class CongestionChargeSystemTest {
         congestionChargeSystem.vehicleLeavingZone(vehicle);
         congestionChargeSystem.getEventLogElem(1).setNewTimestamp(exitTime1);
         congestionChargeSystem.vehicleEnteringZone(vehicle);
-        congestionChargeSystem.getEventLogElem(0).setNewTimestamp(entryTime2);
+        congestionChargeSystem.getEventLogElem(2).setNewTimestamp(entryTime2);
         congestionChargeSystem.vehicleLeavingZone(vehicle);
-        congestionChargeSystem.getEventLogElem(1).setNewTimestamp(exitTime2);
+        congestionChargeSystem.getEventLogElem(3).setNewTimestamp(exitTime2);
 
         final Account account = new Account("Adam Peace", Vehicle.withRegistration("A123 4NP"), new BigDecimal(500));
 

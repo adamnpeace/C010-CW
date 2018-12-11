@@ -120,53 +120,60 @@ public class CalculatorSystemTest {
         ######################
     */
 /*
+
+    */
+
     @Test
-    public void afterTwoReentryWithinFourHours() {
+    public void beforeTwoReentryLessThanFourHrsCostsSixPounds() {
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
-        int expectedCharge = 4;
-        LocalTime entryTime1 = LocalTime.of(14, 01);
+        int expectedCharge = 6;
+
+        LocalTime entryTime1 = LocalTime.of(13, 59);
         LocalTime exitTime1 = LocalTime.of(15, 01);
         LocalTime entryTime2 = LocalTime.of(16, 01);
         LocalTime exitTime2 = LocalTime.of(17, 01);
-        congestionChargeSystem.vehicleEnteringZone(vehicle);
-        congestionChargeSystem.getEventLogElem(0).setNewTimestamp(entryTime1);
-        congestionChargeSystem.vehicleLeavingZone(vehicle);
-        congestionChargeSystem.getEventLogElem(1).setNewTimestamp(exitTime1);
-        congestionChargeSystem.vehicleEnteringZone(vehicle);
-        congestionChargeSystem.getEventLogElem(0).setNewTimestamp(entryTime2);
-        congestionChargeSystem.vehicleLeavingZone(vehicle);
-        congestionChargeSystem.getEventLogElem(1).setNewTimestamp(exitTime2);
-        int calculatedCharge = calculatorSystem.getCalculateCosts(congestionChargeSystem.getEventLogElem(0), congestionChargeSystem.getEventLogElem(1));
-        assertThat(calculatedCharge, is(expectedCharge));
-    }
-    */
-/*
-    @Test
-    public void beforeTwoReentryLessThanFourHrsCostsSixPounds() {
-        Vehicle vehicle1 = Vehicle.withRegistration("J091 4PY");
-        Vehicle vehicle2 = Vehicle.withRegistration("A123 XYZ");
-        int expectedCharge = 10;
+        EntryEvent entryEvent1 = new EntryEvent(vehicle);
+        ExitEvent exitEvent1 = new ExitEvent(vehicle);
+        EntryEvent entryEvent2 = new EntryEvent(vehicle);
+        ExitEvent exitEvent2 = new ExitEvent(vehicle);
+        entryEvent1.setNewTimestamp(entryTime1);
+        entryEvent2.setNewTimestamp(entryTime2);
+        exitEvent1.setNewTimestamp(exitTime1);
+        exitEvent2.setNewTimestamp(exitTime2);
 
         List<ZoneBoundaryCrossing> fakeEventLog = new ArrayList<>();
-
-        EntryEvent entryEvent1 = new EntryEvent(vehicle1);
-        ExitEvent exitEvent1 = new ExitEvent(vehicle1);
-        EntryEvent entryEvent2 = new EntryEvent(vehicle2);
-        ExitEvent exitEvent2 = new ExitEvent(vehicle2);
-
         fakeEventLog.add(entryEvent1);
         fakeEventLog.add(exitEvent1);
         fakeEventLog.add(entryEvent2);
         fakeEventLog.add(exitEvent2);
 
-        LocalTime entryTime1 = LocalTime.of(14, 01); // After 2pm
-        LocalTime exitTime1 = LocalTime.of(18, 00); // Before 4 hours
-        LocalTime entryTime2 = LocalTime.of(13, 59); // Before 2pm
-        LocalTime exitTime2 = LocalTime.of(17, 58); // Before 4 hours
-        fakeEventLog.get(0).setNewTimestamp(entryTime1);
-        fakeEventLog.get(2).setNewTimestamp(entryTime2);
-        fakeEventLog.get(1).setNewTimestamp(exitTime1);
-        fakeEventLog.get(3).setNewTimestamp(exitTime2);
+        int calculatedCharge = calculatorSystem.getCalculatedCharge(fakeEventLog);
+        assertThat(calculatedCharge, is(expectedCharge));
+    }
+
+    @Test
+    public void afterTwoReentryWithinFourHoursCostsFourPounds() {
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+        int expectedCharge = 4;
+
+        LocalTime entryTime1 = LocalTime.of(14, 01);
+        LocalTime exitTime1 = LocalTime.of(15, 01);
+        LocalTime entryTime2 = LocalTime.of(16, 01);
+        LocalTime exitTime2 = LocalTime.of(17, 01);
+        EntryEvent entryEvent1 = new EntryEvent(vehicle);
+        ExitEvent exitEvent1 = new ExitEvent(vehicle);
+        EntryEvent entryEvent2 = new EntryEvent(vehicle);
+        ExitEvent exitEvent2 = new ExitEvent(vehicle);
+        entryEvent1.setNewTimestamp(entryTime1);
+        entryEvent2.setNewTimestamp(entryTime2);
+        exitEvent1.setNewTimestamp(exitTime1);
+        exitEvent2.setNewTimestamp(exitTime2);
+
+        List<ZoneBoundaryCrossing> fakeEventLog = new ArrayList<>();
+        fakeEventLog.add(entryEvent1);
+        fakeEventLog.add(exitEvent1);
+        fakeEventLog.add(entryEvent2);
+        fakeEventLog.add(exitEvent2);
 
         int calculatedCharge = calculatorSystem.getCalculatedCharge(fakeEventLog);
         assertThat(calculatedCharge, is(expectedCharge));
