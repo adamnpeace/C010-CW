@@ -18,6 +18,11 @@ public class Vehicle {
     public static Vehicle withRegistration(String registration) {
         return new Vehicle(registration);
     }
+    
+    public static Vehicle isElectric(boolean isElectric) {
+        this.isElectric = isElectric;
+        return this;
+    }
 
     @Override
     public String toString() {
