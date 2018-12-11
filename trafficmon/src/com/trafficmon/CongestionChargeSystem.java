@@ -2,7 +2,7 @@ package com.trafficmon;
 
 import java.util.*;
 
-public class CongestionChargeSystem implements ICongestionChargeSystem {
+public class CongestionChargeSystem {
 
     private final List<ZoneBoundaryCrossing> eventLog = new ArrayList<>();
     private final Map<Vehicle, List<ZoneBoundaryCrossing>> crossingsByVehicle = new HashMap<>();
@@ -10,6 +10,7 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
     private CheckSystem checkSystem;
     private CalculatorSystem calculatorSystem;
 
+    // Default constructor - only used in actual implementation
     CongestionChargeSystem() {
         this.checkSystem = new CheckSystem();
         this.operationsTeam = OperationsTeam.getInstance();
@@ -22,7 +23,6 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
         this.calculatorSystem = calculatorSystem;
     }
 
-    @Override
     public void vehicleEnteringZone(Vehicle vehicle) {
         EntryEvent entryEvent = new EntryEvent(vehicle);
         eventLog.add(entryEvent);
@@ -32,7 +32,6 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
         crossingsByVehicle.get(entryEvent.getVehicle()).add(entryEvent);
     }
 
-    @Override
     public void vehicleLeavingZone(Vehicle vehicle) {
         if (checkSystem.previouslyRegistered(vehicle, eventLog)) {
             ExitEvent exitEvent = new ExitEvent(vehicle);
@@ -41,7 +40,6 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
         }
     }
 
-    @Override
     public void calculateCharges() {
         calculatorSystem.calculateCharges(crossingsByVehicle);
     }
@@ -52,16 +50,11 @@ public class CongestionChargeSystem implements ICongestionChargeSystem {
     TESTING
     ######################
      */
-    @Override
     public int getEventLogSize() {
         return eventLog.size();
     }
 
-    @Override
     public ZoneBoundaryCrossing getEventLogElem(int index) {
         return eventLog.get(index);
     }
-
-
-
 }

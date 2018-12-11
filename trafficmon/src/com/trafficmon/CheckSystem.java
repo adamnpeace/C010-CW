@@ -23,7 +23,7 @@ public class CheckSystem {
         ZoneBoundaryCrossing lastEvent = crossings.get(0);
 
         for (ZoneBoundaryCrossing crossing : crossings.subList(1, crossings.size())) {
-            if (crossing.timestamp() < lastEvent.timestamp()) {
+            if (crossing.timestamp().isBefore(lastEvent.timestamp())) {
                 return 1;
             }
             if (crossing instanceof EntryEvent && lastEvent instanceof EntryEvent) {
