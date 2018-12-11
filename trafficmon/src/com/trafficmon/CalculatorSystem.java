@@ -3,11 +3,12 @@ package com.trafficmon;
 import java.math.BigDecimal;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
+import java.time.LocalTime;
 
 import java.util.List;
 import java.util.Map;
 
-import java.time.LocalTime;
+
 
 public class CalculatorSystem {
 
@@ -63,32 +64,28 @@ public class CalculatorSystem {
         long fourHoursInSeconds = 14400;
         ZoneBoundaryCrossing previousEvent = crossings.get(0);
 
-        charge = isBeforeTwo(previousEvent) ? 6 : 4;
+        charge = entryTimeCharge(previousEvent);
         for (ZoneBoundaryCrossing crossing : crossings.subList(1, crossings.size())) {
             timeSincePreviousEvent = Math.abs(timeDifference(crossing, previousEvent));
-            if ((crossing instanceof EntryEvent) && timeSincePreviousEvent > fourHoursInSeconds) {
+            if ((crossing instanceof EntryEvent) && timeSincePreviousEvent >= fourHoursInSeconds) {
                 totalCharge += charge;
-                charge = isBeforeTwo(crossing) ? 6 : 4;
+                charge = entryTimeCharge(crossing);
             }
-
             if (crossing instanceof ExitEvent) {
                 timeSpentInZone += timeSincePreviousEvent;
             }
-
             previousEvent = crossing;
-
-            if (timeSpentInZone >= fourHoursInSeconds || timeDifference(previousEvent, crossing) > fourHoursInSeconds) {
+            if (timeSpentInZone >= fourHoursInSeconds) {
                 return 12;
             }
-
         }
         totalCharge += charge;
         return totalCharge;
 
     }
 
-    private boolean isBeforeTwo(ZoneBoundaryCrossing event) {
-        return event.timestamp().isBefore(LocalTime.of(14, 00));
+    private int entryTimeCharge(ZoneBoundaryCrossing event) {
+        return event.timestamp().isBefore(LocalTime.of(14, 00)) ? 6 : 4;
     }
 
     private long timeDifference(ZoneBoundaryCrossing firstEvent, ZoneBoundaryCrossing secondEvent) {
@@ -101,7 +98,7 @@ public class CalculatorSystem {
     ######################
      */
 
-    public int getCalculatedCharge(List<ZoneBoundaryCrossing> eventLog) {
-        return calculateChargeForCrossingList(eventLog);
+    public int getCalculatedCharge(List<ZoneBoundaryCrossing> fakeEventLog) {
+        return calculateChargeForCrossingList(fakeEventLog);
     }
 }

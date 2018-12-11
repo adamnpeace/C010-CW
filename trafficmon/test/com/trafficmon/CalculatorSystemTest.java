@@ -178,6 +178,110 @@ public class CalculatorSystemTest {
         int calculatedCharge = calculatorSystem.getCalculatedCharge(fakeEventLog);
         assertThat(calculatedCharge, is(expectedCharge));
     }
+
+    @Test
+    public void beforeTwoReentryOutsideFourHoursCostsSixPounds() {
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+        int expectedCharge = 10;
+
+        LocalTime entryTime1 = LocalTime.of(13, 00);
+        LocalTime exitTime1 = LocalTime.of(14, 00);
+        LocalTime entryTime2 = LocalTime.of(18, 00);
+        LocalTime exitTime2 = LocalTime.of(20, 00);
+
+        EntryEvent entryEvent1 = new EntryEvent(vehicle);
+        ExitEvent exitEvent1 = new ExitEvent(vehicle);
+        EntryEvent entryEvent2 = new EntryEvent(vehicle);
+        ExitEvent exitEvent2 = new ExitEvent(vehicle);
+
+        entryEvent1.setNewTimestamp(entryTime1);
+        entryEvent2.setNewTimestamp(entryTime2);
+        exitEvent1.setNewTimestamp(exitTime1);
+        exitEvent2.setNewTimestamp(exitTime2);
+
+        List<ZoneBoundaryCrossing> fakeEventLog = new ArrayList<>();
+        fakeEventLog.add(entryEvent1);
+        fakeEventLog.add(exitEvent1);
+        fakeEventLog.add(entryEvent2);
+        fakeEventLog.add(exitEvent2);
+
+        int calculatedCharge = calculatorSystem.getCalculatedCharge(fakeEventLog);
+        assertThat(calculatedCharge, is(expectedCharge));
+    }
+    @Test
+    public void afterTwoReentryOutsideFourHoursCostsSixPounds() {
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+        int expectedCharge = 8;
+
+        LocalTime entryTime1 = LocalTime.of(15, 00);
+        LocalTime exitTime1 = LocalTime.of(16, 00);
+        LocalTime entryTime2 = LocalTime.of(20, 00);
+        LocalTime exitTime2 = LocalTime.of(22, 00);
+
+        EntryEvent entryEvent1 = new EntryEvent(vehicle);
+        ExitEvent exitEvent1 = new ExitEvent(vehicle);
+        EntryEvent entryEvent2 = new EntryEvent(vehicle);
+        ExitEvent exitEvent2 = new ExitEvent(vehicle);
+
+        entryEvent1.setNewTimestamp(entryTime1);
+        entryEvent2.setNewTimestamp(entryTime2);
+        exitEvent1.setNewTimestamp(exitTime1);
+        exitEvent2.setNewTimestamp(exitTime2);
+
+        List<ZoneBoundaryCrossing> fakeEventLog = new ArrayList<>();
+        fakeEventLog.add(entryEvent1);
+        fakeEventLog.add(exitEvent1);
+        fakeEventLog.add(entryEvent2);
+        fakeEventLog.add(exitEvent2);
+
+        int calculatedCharge = calculatorSystem.getCalculatedCharge(fakeEventLog);
+        assertThat(calculatedCharge, is(expectedCharge));
+    }
+    @Test
+    public void manyReentriesCostTwelvePounds() {
+        Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
+        int expectedCharge = 12;
+
+        LocalTime entryTime1 = LocalTime.of(10, 00);
+        LocalTime exitTime1 = LocalTime.of(11, 00);
+        LocalTime entryTime2 = LocalTime.of(12, 00);
+        LocalTime exitTime2 = LocalTime.of(13, 00);
+        LocalTime entryTime3 = LocalTime.of(14, 00);
+        LocalTime exitTime3 = LocalTime.of(15, 00);
+        LocalTime entryTime4 = LocalTime.of(16, 00);
+        LocalTime exitTime4 = LocalTime.of(17, 00);
+
+        EntryEvent entryEvent1 = new EntryEvent(vehicle);
+        ExitEvent exitEvent1 = new ExitEvent(vehicle);
+        EntryEvent entryEvent2 = new EntryEvent(vehicle);
+        ExitEvent exitEvent2 = new ExitEvent(vehicle);
+        EntryEvent entryEvent3 = new EntryEvent(vehicle);
+        ExitEvent exitEvent3 = new ExitEvent(vehicle);
+        EntryEvent entryEvent4 = new EntryEvent(vehicle);
+        ExitEvent exitEvent4 = new ExitEvent(vehicle);
+
+        entryEvent1.setNewTimestamp(entryTime1);
+        entryEvent2.setNewTimestamp(entryTime2);
+        entryEvent3.setNewTimestamp(entryTime3);
+        entryEvent4.setNewTimestamp(entryTime4);
+        exitEvent1.setNewTimestamp(exitTime1);
+        exitEvent2.setNewTimestamp(exitTime2);
+        exitEvent3.setNewTimestamp(exitTime3);
+        exitEvent4.setNewTimestamp(exitTime4);
+
+        List<ZoneBoundaryCrossing> fakeEventLog = new ArrayList<>();
+        fakeEventLog.add(entryEvent1);
+        fakeEventLog.add(exitEvent1);
+        fakeEventLog.add(entryEvent2);
+        fakeEventLog.add(exitEvent2);
+        fakeEventLog.add(entryEvent3);
+        fakeEventLog.add(exitEvent3);
+        fakeEventLog.add(entryEvent4);
+        fakeEventLog.add(exitEvent4);
+
+        int calculatedCharge = calculatorSystem.getCalculatedCharge(fakeEventLog);
+        assertThat(calculatedCharge, is(expectedCharge));
+    }
     /*
         ######################
         ERRORS
@@ -188,12 +292,16 @@ public class CalculatorSystemTest {
     public void exitBeforeEntryTriggersInvestigation() {
         Vehicle vehicle = Vehicle.withRegistration("J091 4PY");
         List<ZoneBoundaryCrossing> fakeEventLog = new ArrayList<>();
+
         EntryEvent entryEvent = new EntryEvent(vehicle);
         ExitEvent exitEvent = new ExitEvent(vehicle);
+
+        entryEvent.setNewTimestamp(LocalTime.of(5, 00));
+        exitEvent.setNewTimestamp(LocalTime.of(4, 00));
+
         fakeEventLog.add(entryEvent);
         fakeEventLog.add(exitEvent);
-        fakeEventLog.get(0).setNewTimestamp(LocalTime.of(5, 00));
-        fakeEventLog.get(1).setNewTimestamp(LocalTime.of(4, 00));
+
         Map<Vehicle, List<ZoneBoundaryCrossing>> fakeCrossingsByVehicle = new HashMap<>();
 
         for (ZoneBoundaryCrossing crossing : fakeEventLog) {
@@ -202,6 +310,7 @@ public class CalculatorSystemTest {
             }
             fakeCrossingsByVehicle.get(crossing.getVehicle()).add(crossing);
         }
+
         context.checking(new Expectations() {{
             exactly(1).of(operationsTeam).triggerInvestigationInto(vehicle);
         }});
