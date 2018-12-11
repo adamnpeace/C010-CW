@@ -79,7 +79,7 @@ public class CongestionChargeSystemTest {
 
     @Test
     public void notPreviouslyRegisteredVehicleAddsNoEvent() {
-        Vehicle vehicle = Vehicle.withRegistration("A123 4NP");
+        Vehicle vehicle = Vehicle.withRegistration("S123 4EF");
         congestionChargeSystem.vehicleLeavingZone(vehicle);
         assertThat(congestionChargeSystem.getEventLogSize(), is(0));
     }
